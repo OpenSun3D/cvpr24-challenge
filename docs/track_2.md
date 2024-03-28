@@ -24,6 +24,16 @@
 Most existing methods in 3D scene understanding are heavily focused on understanding the scene on an object level by detecting or segmenting the 3D object instances. However, identifying 3D objects is only an intermediate step towards a more fine-grained goal. In real-world applications, agents need to successfully detect and interact with the functional interactive elements in the scene, such as knobs, handles and buttons, and reason about their purpose in the scene context. Through interacting with these elements, agents can accomplish diverse tasks, such as opening a drawer or turning on the light. In the second track of our workshop challenge, we focus on open-vocabulary 3D affordance grounding. Given a 3D scene and an open-vocabulary, text-based description of a task (e.g., "open the fridge"), the goal is to segment the functional interactive element that the agent needs to interact with (e.g., fridge handle) to successfully accomplish the task.
 </div>
 
+## Tentative dates
+
+- Submission Portal: EvalAI
+- Data Instructions & Helper Scripts: April 15, 2024
+- Dev Phase Start: April 15, 2024
+- Submission Portal Start: April 15, 2024
+- Test Phase Start: May 1, 2024
+- Test Phase End: June 8, 2024 (23:59 Pacific Time)
+
+
 <!-- * `mkdocs new [dir-name]` - Create a new project.
 * `mkdocs serve` - Start the live-reloading docs server.
 * `mkdocs build` - Build the documentation site.

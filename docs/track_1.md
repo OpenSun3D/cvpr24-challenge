@@ -18,6 +18,16 @@
 <div style="text-align: justify">
 The ability to perceive, understand and interact with arbitrary 3D environments is a long-standing research goal with applications in AR/VR, robotics, health and industry. Many 3D scene understanding methods are largely limited to recognizing a closed-set of pre-defined object classes. In the first track of our workshop challenge, we focus on open-vocabulary 3D object instance search. Given a 3D scene and an open-vocabulary, text-based query, the goal is to localize and densely segment all object instances that fit best with the specified query. If there are multiple objects that fit the given prompt, each of these objects should be segmented, and labeled as separate instances. The list of queries can refer to long-tail objects, or can include descriptions of object properties such as semantics, material type, and situational context.
 </div>
+
+## Tentative dates
+
+- Submission Portal: EvalAI
+- Data Instructions & Helper Scripts: April 15, 2024
+- Dev Phase Start: April 15, 2024
+- Submission Portal Start: April 15, 2024
+- Test Phase Start: May 1, 2024
+- Test Phase End: June 8, 2024 (23:59 Pacific Time)
+
 <!-- * `mkdocs new [dir-name]` - Create a new project.
 * `mkdocs serve` - Start the live-reloading docs server.
 * `mkdocs build` - Build the documentation site.
