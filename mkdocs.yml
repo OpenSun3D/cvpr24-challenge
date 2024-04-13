@@ -1,11 +1,13 @@
-site_name: ☀️ OpenSUN 3D 🌍
+site_name: OpenSUN 3D
 nav:
   - Workshop Main Page: https://opensun3d.github.io
   - Challenge Track 1: track_1.md
-  - Challenge Track 2: track_2.md
+  - Challenge Track 2: 
+    - Instructions: track_2.md
+    - Data parser: data-parser.md
 theme:
   name: material
-  # logo:  
+  logo: assets/logo.png
   site_url: https://opensun3d.github.io/cvpr24-challenge/
   features:
     - navigation.tabs
@@ -25,4 +27,6 @@ theme:
 
   # extra_css:
   # - stylesheets/extra.css
-
+plugins:
+  - search
+  - mkdocstrings
