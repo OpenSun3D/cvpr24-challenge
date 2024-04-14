@@ -1,7 +1,7 @@
 import numpy as np
 import open3d as o3d
 
-# Combines multiple laser scans
+# Combines multiple laser scans / point clouds
 def combine_point_clouds(ply_filenames):
     pcd_combined = o3d.geometry.PointCloud()
     for filename in ply_filenames:
@@ -18,6 +18,11 @@ def pc_downsample(pcd_combined, voxel_size=0.005):
 
     return downpcd
 
+# estimate normals
+def pc_estimate_normals(pcd, radius = 0.1, max_nn = 16):
+    pcd.estimate_normals(search_param = o3d.geometry.KDTreeSearchParamHybrid(radius = radius, max_nn = max_nn))
+
+    return pcd
 # def crop_extraneous_points_from_point_cloud(pcd, 
 #                                             dbscan_eps = 0.02, 
 #                                             dbscan_min_points = 10, 
