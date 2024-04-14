@@ -5,6 +5,7 @@ import cv2
 import os
 import open3d as o3d
 import glob
+import imageio
 import utils.homogenous as hm
 from utils.rigid_interpolation import rigid_interp_split
 
@@ -16,7 +17,7 @@ def decide_pose(pose):
         pose (np.ndarray): A 4x4 NumPy array representing a 3D pose transformation matrix.
 
     Returns:
-        int: Index representing the closest predefined orientation:
+        (int): Index representing the closest predefined orientation:
              0 for upright, 1 for left, 2 for upside-down, and 3 for right.
     """
 
@@ -46,7 +47,7 @@ def rotate_pose(im, rot_index):
                          2 for 180 degrees rotation, and 3 for 90 degrees counterclockwise rotation.
 
     Returns:
-        numpy.ndarray: The rotated image.
+        (numpy.ndarray): The rotated image.
     """
     h, w, d = im.shape
     if d == 3:
@@ -70,7 +71,7 @@ def st2_camera_intrinsics(filename, format="tuple"):
                                 Supported formats are "tuple" and "matrix". Defaults to "tuple".
 
     Returns:
-        tuple or numpy.ndarray: Camera intrinsic parameters in the specified format.
+        (tuple) or (numpy.ndarray): Camera intrinsic parameters in the specified format.
                                 If format is "tuple", returns a tuple (w, h, fx, fy, hw, hh).
                                 If format is "matrix", returns a 3x3 numpy array representing the camera matrix.
     
@@ -168,14 +169,14 @@ class DataParser:
     
     def get_camera_trajectory(self, visit_id, video_id):
         """
-        Retrieve the camera trajectory from a file and convert it into translation and rotation matrices.
+        Retrieve the camera trajectory from a file and convert it into a dictionary whose keys are the timestamps and values are the corresponding camera poses.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
 
         Returns:
-        dict: A dictionary where keys are timestamps (rounded to 3 decimal places) and values are 4x4 transformation matrices representing camera poses.
+            (dict): A dictionary where keys are timestamps (rounded to 3 decimal places) and values are 4x4 transformation matrices representing camera poses.
         """
         traj_file = os.path.join(self.data_root_path, visit_id, video_id, "lowres_wide.traj")
         with open(traj_file) as f:
@@ -194,12 +195,12 @@ class DataParser:
         Load a point cloud from a .ply file containing laser scan data.
 
         Args:
-            visit_id (str): The identifier of the visit.
+            visit_id (str): The identifier of the scene.
 
         Returns:
-            open3d.geometry.PointCloud: A point cloud object containing the laser scan data.
+            (open3d.geometry.PointCloud): A point cloud object containing the laser scan data (i.e., XYZRGB point cloud).
         """
-        laser_scan_path = os.path.join(self.data_root_path, visit_id, visit_id + ".ply")
+        laser_scan_path = os.path.join(self.data_root_path, visit_id, visit_id + "_laser_scan.ply")
 
         pcd = o3d.io.read_point_cloud(laser_scan_path)
 
@@ -207,36 +208,36 @@ class DataParser:
     
     def get_laser_scan_path(self, visit_id):
         """
-        Get the file path of the laser scan data.
+        Get the file path of the laser scan.
 
         Args:
-            visit_id (str): The identifier of the visit.
+            visit_id (str): The identifier of the scene.
 
         Returns:
-            str: The file path of the .ply file containing the laser scan data.
+            (str): The file path of the .ply file containing the laser scan.
         """
-        laser_scan_path = os.path.join(self.data_root_path, visit_id, visit_id + ".ply")
+        laser_scan_path = os.path.join(self.data_root_path, visit_id, visit_id + "_laser_scan.ply")
 
         return laser_scan_path
 
 
     def get_mesh_reconstruction(self, visit_id, video_id, format="point_cloud"):
         """
-        Load mesh reconstruction data from a .ply file.
+        Load mesh reconstruction data based on the iPad video sequence from a .ply file.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
             format (str, optional): The format of the mesh reconstruction data to load. 
                                     Supported formats are "point_cloud" and "mesh". 
                                     Defaults to "point_cloud".
 
         Returns:
-            open3d.geometry.PointCloud or open3d.geometry.TriangleMesh: 
-                The loaded mesh reconstruction data.
+            Union[open3d.geometry.PointCloud, open3d.geometry.TriangleMesh]: 
+                The loaded mesh reconstruction data in the specified format.
 
         Raises:
-            ValueError: If an unsupported mesh format is specified.
+            ValueError: If an unsupported 3D data format is specified.
         """
         mesh_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_3dod_mesh.ply")
 
@@ -254,14 +255,14 @@ class DataParser:
 
     def get_mesh_reconstruction_path(self, visit_id, video_id):
         """
-        Get the file path of the mesh reconstruction data.
+        Get the file path of the mesh reconstruction data based on the iPad video sequence.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
 
         Returns:
-            str: The file path of the .ply file containing the mesh reconstruction data.
+            (str): The file path of the .ply file containing the mesh reconstruction data.
         """
         mesh_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_3dod_mesh.ply")
         
@@ -270,14 +271,14 @@ class DataParser:
 
     def get_highres_reconstruction(self, visit_id, video_id):
         """
-        Load high-resolution reconstruction data from a .ply file.
+        Load high-resolution 3D reconstruction data based on the iPad hires frames from a .ply file.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
 
         Returns:
-            open3d.geometry.PointCloud: A point cloud object containing the high-resolution reconstruction data.
+            (open3d.geometry.PointCloud): A point cloud object containing the high-resolution 3D reconstruction data.
         """
         highres_recon_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_highres_recon.ply")
         
@@ -288,26 +289,18 @@ class DataParser:
 
     def get_highres_reconstruction_path(self, visit_id, video_id):
         """
-        Get the file path of the high-resolution reconstruction data.
+        Get the file path of the high-resolution reconstruction data based on the iPad hires frames.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
 
         Returns:
-            str: The file path of the .ply file containing the high-resolution reconstruction data.
+            (str): The file path of the .ply file containing the high-resolution 3D reconstruction data.
         """
         highres_recon_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_highres_recon.ply")
         
         return highres_recon_path
-
-    
-    # def get_3dod_annotations(self, visit_id, video_id):
-    #     annotations_3dod_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_3dod_annotation.json")
-        
-    #     pcd = o3d.io.read_point_cloud(hires_recon_path) 
-
-    #     return pcd
     
 
     def get_frame_id_and_intrinsic(self, visit_id, video_id, asset_type, format="rgb"):
@@ -317,13 +310,14 @@ class DataParser:
         Args:
             visit_id (str): The identifier of the visit.
             video_id (str): The identifier of the video within the visit.
-            asset_type (str): The type of asset, such as "rgb" or "depth".
+            asset_type (str): The type of asset, such as "rgb" or "depth". 
+                                Supported asset types are ["wide", "lowres_wide", "vga_wide", "ultrawide"] if format="rgb" and ["wide", "lowres_wide"] if format="depth"
             format (str, optional): The format of the asset data to retrieve. 
                                     Supported formats are "rgb" and "depth". 
                                     Defaults to "rgb".
 
         Returns:
-            tuple: A tuple containing:
+            (tuple): A tuple containing:
                 - frame_ids (list): A list of frame IDs.
                 - frame_paths (dict): A dictionary mapping frame IDs to their corresponding file paths.
                 - intrinsics (dict): A dictionary mapping frame IDs to their camera intrinsics.
@@ -468,11 +462,11 @@ class DataParser:
         Load the estimated transformation matrix from a .npy file.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
 
         Returns:
-            numpy.ndarray: The estimated transformation matrix loaded from the file.
+            (numpy.ndarray): The estimated transformation matrix loaded from the file.
         """
         estimated_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_estimated_transform.npy")
         estimated_transform = np.load(estimated_transform_path) 
@@ -483,11 +477,11 @@ class DataParser:
         Get the file path of the estimated transformation matrix.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
 
         Returns:
-            str: The file path of the .npy file containing the estimated transformation matrix.
+            (str): The file path of the .npy file containing the estimated transformation matrix.
         """
         estimated_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_estimated_transform.npy")
         return estimated_transform_path
@@ -497,11 +491,11 @@ class DataParser:
         Load the refined transformation matrix from a .npy file.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
 
         Returns:
-            numpy.ndarray: The refined transformation matrix loaded from the file.
+            (numpy.ndarray): The refined transformation matrix loaded from the file.
         """
         refined_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_refined_transform.npy")
         refined_transform = np.load(refined_transform_path) 
@@ -512,21 +506,34 @@ class DataParser:
         Get the file path of the refined transformation matrix.
 
         Args:
-            visit_id (str): The identifier of the visit.
-            video_id (str): The identifier of the video within the visit.
+            visit_id (str): The identifier of the scene.
+            video_id (str): The identifier of the video sequence.
 
         Returns:
-            str: The file path of the .npy file containing the refined transformation matrix.
+            (str): The file path of the .npy file containing the refined transformation matrix.
         """
         refined_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_refined_transform.npy")
         return refined_transform_path
+    
+    def read_rgb_frame(full_frame_path, normalize=False):
+        color = imageio.v2.imread(full_frame_path)
+
+        if normalize:
+            color = color / 255.
+
+        return color
+    
+    def read_depth_frame(full_frame_path, conversion_factor=1000):
+        depth = imageio.v2.imread(full_frame_path) / conversion_factor
+
+        return depth
 
     def get_crop_mask(self, visit_id, return_indices=False):
         """
         Load the crop mask from a .npy file.
 
         Args:
-            visit_id (str): The identifier of the visit.
+            visit_id (str): The identifier of the scene.
             return_indices (bool, optional): Whether to return the indices of the cropped points. Defaults to False.
 
         Returns:
@@ -545,11 +552,11 @@ class DataParser:
         Crop a laser scan using a crop mask.
 
         Args:
-            visit_id (str): The identifier of the visit.
+            visit_id (str): The identifier of the scene.
             laser_scan (open3d.geometry.PointCloud): The laser scan point cloud to be cropped.
 
         Returns:
-            open3d.geometry.PointCloud: The cropped laser scan point cloud.
+            (open3d.geometry.PointCloud): The cropped laser scan point cloud.
         """
         filtered_idx_list = self.get_crop_mask(visit_id, return_indices=True)
 

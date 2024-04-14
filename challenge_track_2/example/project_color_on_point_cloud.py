@@ -1,3 +1,8 @@
+"""Projects the RGB color of the iPad camera frames on the 3D points of the laser scan
+
+This example script demonstrates how to utilize the data assets and helper scripts in the SceneFun3D Toolkit. 
+"""
+
 import numpy as np
 import open3d as o3d
 import os
@@ -8,6 +13,7 @@ from utils.data_parser import DataParser
 from utils.viz import viz_3d
 import imageio
 from utils.fusion_util import PointCloudToImageMapper
+from utils.pc_process import pc_estimate_normals
 
 ##################
 ### PARAMETERS ###
@@ -15,10 +21,10 @@ from utils.fusion_util import PointCloudToImageMapper
 use_interpolation = True
 time_distance_threshold = 0.2
 frame_distance_threshold = np.inf #0.1
-visibility_threshold = 0.25
-cut_bound = 5
+visibility_threshold=0.25
+cut_bound=5
 
-vis_result = True
+vis_result = True #False
 ##################
 ##################
 
@@ -28,7 +34,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--split",
-        choices=["Training", "Validation"],
+        choices=["dev", "test"],
     )
 
     parser.add_argument(
@@ -48,7 +54,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--coloring_asset",
         default="wide", # choose the RGBD assets to use for coloring {wide, lowres_wide}
-        choices=["wide", "lowres_wide"],
+        choices=["wide", "lowres_wide"]
     )
 
     parser.add_argument(
@@ -67,7 +73,8 @@ if __name__ == "__main__":
         'video_id_csv must be specified'
     
     continue_visit_id = int(args.continue_video_id)
-    split = "train" if args.split == "Training" else "val"
+    # split = "train" if args.split == "Training" else "val"
+    split = args.split
 
     use_interpolation = True if args.coloring_asset == "wide" else False
 
@@ -123,7 +130,8 @@ if __name__ == "__main__":
         point2img_mapper = PointCloudToImageMapper(
             image_dim=(w, h), intrinsics=intrinsics,
             visibility_threshold=visibility_threshold,
-            cut_bound=cut_bound)
+            cut_bound=cut_bound
+        )
 
 
         counter = np.zeros((n_points, 1))
@@ -138,8 +146,8 @@ if __name__ == "__main__":
                 print("Skipping frame.")
                 continue
 
-            depth = imageio.v2.imread(depth_frame_paths[frame_id]) / 1000
-            color = imageio.v2.imread(rgb_frame_paths[frame_id]) / 255.
+            depth = dataParser.read_depth_frame(depth_frame_paths[frame_id]) #imageio.v2.imread(depth_frame_paths[frame_id]) / 1000
+            color = dataParser.read_rgb_frame(rgb_frame_paths[frame_id], normalize=True) #imageio.v2.imread(rgb_frame_paths[frame_id]) / 255.
 
             # calculate the 3d-2d mapping based on the depth
             mapping = np.ones([n_points, 4], dtype=int)
@@ -180,6 +188,6 @@ if __name__ == "__main__":
             plydata.write(output_path)
 
         if vis_result:
-            pcd.estimate_normals(search_param = o3d.geometry.KDTreeSearchParamHybrid(radius = 0.1, max_nn = 16))
+            pcd = pc_estimate_normals(pcd)
             viz_3d([pcd], show_coordinate_system=False)
 
