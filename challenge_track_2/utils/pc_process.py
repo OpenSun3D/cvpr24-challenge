@@ -1,6 +1,23 @@
 import numpy as np
 import open3d as o3d
 
+# Combines multiple laser scans
+def combine_point_clouds(ply_filenames):
+    pcd_combined = o3d.geometry.PointCloud()
+    for filename in ply_filenames:
+
+        pcd = o3d.io.read_point_cloud(filename)
+
+        pcd_combined += pc_downsample(pcd)
+
+    return pcd_combined
+    
+# Downsamples a point cloud using voxel downsampling
+def pc_downsample(pcd_combined, voxel_size=0.005):
+    downpcd = pcd_combined.voxel_down_sample(voxel_size=voxel_size)
+
+    return downpcd
+
 # def crop_extraneous_points_from_point_cloud(pcd, 
 #                                             dbscan_eps = 0.02, 
 #                                             dbscan_min_points = 10, 
