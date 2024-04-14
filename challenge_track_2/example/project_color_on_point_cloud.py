@@ -4,7 +4,6 @@ import os
 import argparse
 import pandas as pd
 from plyfile import PlyData, PlyProperty
-import copy
 from utils.data_parser import DataParser
 from utils.viz import viz_3d
 import imageio
@@ -16,10 +15,10 @@ from utils.fusion_util import PointCloudToImageMapper
 use_interpolation = True
 time_distance_threshold = 0.2
 frame_distance_threshold = np.inf #0.1
-visibility_threshold=0.25
-cut_bound=5
+visibility_threshold = 0.25
+cut_bound = 5
 
-vis_result = True #False
+vis_result = True
 ##################
 ##################
 
@@ -49,6 +48,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--coloring_asset",
         default="wide", # choose the RGBD assets to use for coloring {wide, lowres_wide}
+        choices=["wide", "lowres_wide"],
     )
 
     parser.add_argument(

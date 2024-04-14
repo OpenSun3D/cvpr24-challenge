@@ -10,12 +10,16 @@ from utils.rigid_interpolation import rigid_interp_split
 
 def decide_pose(pose):
     """
+    Determines the orientation of a 3D pose based on the alignment of its z-vector with predefined orientations.
+
     Args:
-        pose: np.array (4, 4)
+        pose (np.ndarray): A 4x4 NumPy array representing a 3D pose transformation matrix.
+
     Returns:
-        index: int (0, 1, 2, 3)
-        for upright, left, upside-down and right
+        int: Index representing the closest predefined orientation:
+             0 for upright, 1 for left, 2 for upside-down, and 3 for right.
     """
+
     # pose style
     z_vec = pose[2, :3]
     z_orien = np.array(
@@ -33,8 +37,16 @@ def decide_pose(pose):
 
 def rotate_pose(im, rot_index):
     """
+    Rotates an image by a specified angle based on the rotation index.
+
     Args:
-        im: (m, n)
+        im (numpy.ndarray): The input image to be rotated. It should have shape (height, width, channels).
+        rot_index (int): Index representing the rotation angle:
+                         0 for no rotation, 1 for 90 degrees clockwise rotation,
+                         2 for 180 degrees rotation, and 3 for 90 degrees counterclockwise rotation.
+
+    Returns:
+        numpy.ndarray: The rotated image.
     """
     h, w, d = im.shape
     if d == 3:
@@ -49,6 +61,22 @@ def rotate_pose(im, rot_index):
     return new_im
 
 def st2_camera_intrinsics(filename, format="tuple"):
+    """
+    Parses a file containing camera intrinsic parameters and returns them in the specified format.
+
+    Args:
+        filename (str): The path to the file containing camera intrinsic parameters.
+        format (str, optional): The format in which to return the camera intrinsic parameters.
+                                Supported formats are "tuple" and "matrix". Defaults to "tuple".
+
+    Returns:
+        tuple or numpy.ndarray: Camera intrinsic parameters in the specified format.
+                                If format is "tuple", returns a tuple (w, h, fx, fy, hw, hh).
+                                If format is "matrix", returns a 3x3 numpy array representing the camera matrix.
+    
+    Raises:
+        ValueError: If an unsupported format is specified.
+    """
     w, h, fx, fy, hw, hh = np.loadtxt(filename)
 
     if format == "tuple":
@@ -59,9 +87,15 @@ def st2_camera_intrinsics(filename, format="tuple"):
         raise ValueError(f"Unknown format {format}")
 
 def convert_angle_axis_to_matrix3(angle_axis):
-    """Return a Matrix3 for the angle axis.
-    Arguments:
-        angle_axis {Point3} -- a rotation in angle axis form.
+    """
+    Converts a rotation from angle-axis representation to a 3x3 rotation matrix.
+
+    Args:
+        angle_axis (numpy.ndarray): A 3-element array representing the rotation in angle-axis form [angle, axis_x, axis_y, axis_z].
+
+    Returns:
+        numpy.ndarray: A 3x3 rotation matrix representing the same rotation as the input angle-axis.
+
     """
     matrix, jacobian = cv2.Rodrigues(angle_axis)
     return matrix
@@ -76,9 +110,14 @@ def TrajStringToMatrix(traj_str):
         * Columns 5-7: translation (usually in meters)
 
     Returns:
-        ts: translation matrix
-        Rt: rotation matrix
+        tuple: Tuple containing:
+               - ts (str): Timestamp.
+               - Rt (numpy.ndarray): Transformation matrix representing rotation and translation.
+
+    Raises:
+        AssertionError: If the input string does not have exactly seven columns.
     """
+
     tokens = traj_str.split()
     assert len(tokens) == 7
     ts = tokens[0]
@@ -98,6 +137,9 @@ def TrajStringToMatrix(traj_str):
 
 
 class DataParser:
+    """
+    A class for parsing data files in the SceneFun3D dataset
+    """
 
     rgb_assets = [
         "wide", "lowres_wide", "vga_wide", "ultrawide"
@@ -109,12 +151,32 @@ class DataParser:
     }
 
     def __init__(self, data_root_path, split = "train"):
-        if split not in ["train", "val"]:
+        """
+        Initialize the DataParser instance with the root path and split.
+
+        Args:
+            data_root_path (str): The root path where data is located.
+            split (str, optional): The split of the data (e.g., "train", "val"). Defaults to "train".
+
+        Raises:
+            ValueError: If an unknown split is specified.
+        """
+        if split not in ["train", "val", "test", "dev"]:
             raise ValueError(f"Unknown split {split}")
         
         self.data_root_path = os.path.join(data_root_path, split)
     
     def get_camera_trajectory(self, visit_id, video_id):
+        """
+        Retrieve the camera trajectory from a file and convert it into translation and rotation matrices.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+
+        Returns:
+        dict: A dictionary where keys are timestamps (rounded to 3 decimal places) and values are 4x4 transformation matrices representing camera poses.
+        """
         traj_file = os.path.join(self.data_root_path, visit_id, video_id, "lowres_wide.traj")
         with open(traj_file) as f:
             traj = f.readlines()
@@ -128,6 +190,15 @@ class DataParser:
         return poses_from_traj
 
     def get_laser_scan(self, visit_id):
+        """
+        Load a point cloud from a .ply file containing laser scan data.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+
+        Returns:
+            open3d.geometry.PointCloud: A point cloud object containing the laser scan data.
+        """
         laser_scan_path = os.path.join(self.data_root_path, visit_id, visit_id + ".ply")
 
         pcd = o3d.io.read_point_cloud(laser_scan_path)
@@ -135,13 +206,40 @@ class DataParser:
         return pcd
     
     def get_laser_scan_path(self, visit_id):
+        """
+        Get the file path of the laser scan data.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+
+        Returns:
+            str: The file path of the .ply file containing the laser scan data.
+        """
         laser_scan_path = os.path.join(self.data_root_path, visit_id, visit_id + ".ply")
 
         return laser_scan_path
 
+
     def get_mesh_reconstruction(self, visit_id, video_id, format="point_cloud"):
+        """
+        Load mesh reconstruction data from a .ply file.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+            format (str, optional): The format of the mesh reconstruction data to load. 
+                                    Supported formats are "point_cloud" and "mesh". 
+                                    Defaults to "point_cloud".
+
+        Returns:
+            open3d.geometry.PointCloud or open3d.geometry.TriangleMesh: 
+                The loaded mesh reconstruction data.
+
+        Raises:
+            ValueError: If an unsupported mesh format is specified.
+        """
         mesh_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_3dod_mesh.ply")
-        
+
         mesh = None 
 
         if format == "point_cloud":
@@ -152,23 +250,57 @@ class DataParser:
             raise ValueError(f"Unknown mesh format {format}")
         
         return mesh
-    
+
+
     def get_mesh_reconstruction_path(self, visit_id, video_id):
+        """
+        Get the file path of the mesh reconstruction data.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+
+        Returns:
+            str: The file path of the .ply file containing the mesh reconstruction data.
+        """
         mesh_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_3dod_mesh.ply")
         
         return mesh_path
-    
+
+
     def get_highres_reconstruction(self, visit_id, video_id):
+        """
+        Load high-resolution reconstruction data from a .ply file.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+
+        Returns:
+            open3d.geometry.PointCloud: A point cloud object containing the high-resolution reconstruction data.
+        """
         highres_recon_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_highres_recon.ply")
         
         pcd = o3d.io.read_point_cloud(highres_recon_path) 
 
         return pcd
-    
+
+
     def get_highres_reconstruction_path(self, visit_id, video_id):
+        """
+        Get the file path of the high-resolution reconstruction data.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+
+        Returns:
+            str: The file path of the .ply file containing the high-resolution reconstruction data.
+        """
         highres_recon_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_highres_recon.ply")
         
         return highres_recon_path
+
     
     # def get_3dod_annotations(self, visit_id, video_id):
     #     annotations_3dod_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_3dod_annotation.json")
@@ -179,6 +311,26 @@ class DataParser:
     
 
     def get_frame_id_and_intrinsic(self, visit_id, video_id, asset_type, format="rgb"):
+        """
+        Retrieve frame IDs, frame paths, and camera intrinsics for a given visit, video, and asset type.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+            asset_type (str): The type of asset, such as "rgb" or "depth".
+            format (str, optional): The format of the asset data to retrieve. 
+                                    Supported formats are "rgb" and "depth". 
+                                    Defaults to "rgb".
+
+        Returns:
+            tuple: A tuple containing:
+                - frame_ids (list): A list of frame IDs.
+                - frame_paths (dict): A dictionary mapping frame IDs to their corresponding file paths.
+                - intrinsics (dict): A dictionary mapping frame IDs to their camera intrinsics.
+
+        Raises:
+            ValueError: If an unknown asset type or format is specified, or if the intrinsics file of a frame does not exist.
+        """
 
         if format == "rgb":
             if asset_type not in self.rgb_assets:
@@ -230,6 +382,23 @@ class DataParser:
                          use_interpolation = False, 
                          time_distance_threshold = np.inf,
                          frame_distance_threshold = np.inf):
+        """
+        Get the nearest pose to a desired timestamp from a dictionary of poses.
+
+        Args:
+            desired_timestamp (float): The timestamp of the desired pose.
+            poses_from_traj (dict): A dictionary where keys are timestamps and values are 4x4 transformation matrices representing poses.
+            use_interpolation (bool, optional): Whether to use interpolation to find the nearest pose. Defaults to False.
+            time_distance_threshold (float, optional): The maximum allowable time difference between the desired timestamp and the nearest pose timestamp. Defaults to np.inf.
+            frame_distance_threshold (float, optional): The maximum allowable distance in terms of frame difference between the desired timestamp and the nearest pose timestamp. Defaults to np.inf.
+
+        Returns:
+            numpy.ndarray or None: The nearest pose as a 4x4 transformation matrix if found within the thresholds, else None.
+
+        Note:
+            If `use_interpolation` is True, the function may perform linear interpolation between two nearest poses to estimate the desired pose. 
+            The thresholds `time_distance_threshold` and `frame_distance_threshold` are used to control how tolerant the function is towards deviations in time and frame distance.
+        """
 
         max_pose_timestamp = max(float(key) for key in poses_from_traj.keys())
         min_pose_timestamp = min(float(key) for key in poses_from_traj.keys()) 
@@ -295,40 +464,93 @@ class DataParser:
         return desired_pose
 
     def get_estimated_transform(self, visit_id, video_id):
+        """
+        Load the estimated transformation matrix from a .npy file.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+
+        Returns:
+            numpy.ndarray: The estimated transformation matrix loaded from the file.
+        """
         estimated_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_estimated_transform.npy")
-        
         estimated_transform = np.load(estimated_transform_path) 
-
         return estimated_transform
-    
+
     def get_estimated_transform_path(self, visit_id, video_id):
+        """
+        Get the file path of the estimated transformation matrix.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+
+        Returns:
+            str: The file path of the .npy file containing the estimated transformation matrix.
+        """
         estimated_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_estimated_transform.npy")
-        
         return estimated_transform_path
-    
+
     def get_refined_transform(self, visit_id, video_id):
+        """
+        Load the refined transformation matrix from a .npy file.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+
+        Returns:
+            numpy.ndarray: The refined transformation matrix loaded from the file.
+        """
         refined_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_refined_transform.npy")
-        
         refined_transform = np.load(refined_transform_path) 
-
         return refined_transform
-    
-    def get_refined_transform_path(self, visit_id, video_id):
-        refined_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_refined_transform.npy")
-        
-        return refined_transform_path
-    
-    def get_crop_mask(self, visit_id, return_indices=False):
-        crop_mask_path = os.path.join(self.data_root_path, visit_id, f"{visit_id}_crop_mask.npy")
 
+    def get_refined_transform_path(self, visit_id, video_id):
+        """
+        Get the file path of the refined transformation matrix.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            video_id (str): The identifier of the video within the visit.
+
+        Returns:
+            str: The file path of the .npy file containing the refined transformation matrix.
+        """
+        refined_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_refined_transform.npy")
+        return refined_transform_path
+
+    def get_crop_mask(self, visit_id, return_indices=False):
+        """
+        Load the crop mask from a .npy file.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            return_indices (bool, optional): Whether to return the indices of the cropped points. Defaults to False.
+
+        Returns:
+            numpy.ndarray or tuple: The crop mask loaded from the file. If `return_indices` is True, returns a tuple containing the indices of the cropped points.
+        """
+        crop_mask_path = os.path.join(self.data_root_path, visit_id, f"{visit_id}_crop_mask.npy")
         crop_mask = np.load(crop_mask_path)
         
         if return_indices:
             return np.where(crop_mask)[0]
         else:
             return crop_mask
-    
+
     def get_cropped_laser_scan(self, visit_id, laser_scan):
+        """
+        Crop a laser scan using a crop mask.
+
+        Args:
+            visit_id (str): The identifier of the visit.
+            laser_scan (open3d.geometry.PointCloud): The laser scan point cloud to be cropped.
+
+        Returns:
+            open3d.geometry.PointCloud: The cropped laser scan point cloud.
+        """
         filtered_idx_list = self.get_crop_mask(visit_id, return_indices=True)
 
         laser_scan_points = np.array(laser_scan.points)
