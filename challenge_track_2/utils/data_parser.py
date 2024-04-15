@@ -537,6 +537,17 @@ class DataParser:
         return refined_transform_path
     
     def read_rgb_frame(self, full_frame_path, normalize=False):
+        """
+        Read an RGB frame from the specified path.
+
+        Args:
+            full_frame_path (str): The full path to the RGB frame file.
+            normalize (bool, optional): Whether to normalize the pixel values to the range [0, 1]. Defaults to False.
+
+        Returns:
+            (numpy.ndarray): The RGB frame as a NumPy array with the RGB color values.
+
+        """
         color = imageio.v2.imread(full_frame_path)
 
         if normalize:
@@ -545,6 +556,17 @@ class DataParser:
         return color
     
     def read_depth_frame(self, full_frame_path, conversion_factor=1000):
+        """
+        Read a depth frame from the specified path and convert it to depth values.
+
+        Args:
+            full_frame_path (str): The full path to the depth frame file.
+            conversion_factor (float, optional): The conversion factor to convert pixel values to depth values. Defaults to 1000 to convert millimeters to meters.
+
+        Returns:
+            (numpy.ndarray): The depth frame as a NumPy array with the depth values.
+        """
+        
         depth = imageio.v2.imread(full_frame_path) / conversion_factor
 
         return depth
