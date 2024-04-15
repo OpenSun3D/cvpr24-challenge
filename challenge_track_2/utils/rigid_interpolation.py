@@ -1,8 +1,6 @@
-# Interpolates rigid motion in 3D
+# Implements rigid body motion interpolation in 3D
 #
-# Usage: Use the function rigid_interp() as shown in the demo code
-#
-# Method described in https://www.geometrictools.com/Documentation/InterpolationRigidMotions.pdf
+# Usage: Use the function rigid_interp_geodesic() or rigid_interp_split() as shown in the demo code
 
 import numpy as np
 
@@ -157,7 +155,21 @@ def GeodesicPath(t, H0, H1):
     Output:
         * H: interpolated homogenous matrix (4x4) describing the motion in timestep t
 """
-def rigid_interp(t, H0, t0, H1, t1):
+def rigid_interp_geodesic(t, H0, t0, H1, t1):
+    """
+    Performs rigid body motion interpolation in SE(3). See https://www.geometrictools.com/Documentation/InterpolationRigidMotions.pdf.
+
+    Args:
+        t (float): desired timestep
+        H0 (numpy.ndarray): homogenous matrix (4x4) describing the motion in timestep t0
+        t0 (float): timestep corresponding to H0
+        H1 (numpy.ndarray): homogenous matrix (4x4) describing the motion in timestep t1
+        t1 (float): timestep corresponding to H1
+
+    Returns:
+        (numpy.ndarray): homogenous matrix (4x4) describing the motion in timestep t  
+    
+    """
 
     # map t in the interval [0, 1]
     slope = (1.0 - 0.0) / (t1 - t0)
@@ -166,6 +178,21 @@ def rigid_interp(t, H0, t0, H1, t1):
     return GeodesicPath(t_, H0, H1)
 
 def rigid_interp_split(t, H0, t0, H1, t1):
+    """
+    Performs rigid body motion interpolation in SO(3) x R^3. See https://www.adrian-haarbach.de/interpolation-methods/doc/haarbach2018survey.pdf.
+
+    Args:
+        t (float): desired timestep
+        H0 (numpy.ndarray): homogenous matrix (4x4) describing the motion in timestep t0
+        t0 (float): timestep corresponding to H0
+        H1 (numpy.ndarray): homogenous matrix (4x4) describing the motion in timestep t1
+        t1 (float): timestep corresponding to H1
+
+    Returns:
+        (numpy.ndarray): homogenous matrix (4x4) describing the motion in timestep t  
+    
+    """
+
     # map t in the interval [0, 1]
     slope = (1.0 - 0.0) / (t1 - t0)
     t_ = 0.0 + slope * (t - t0)

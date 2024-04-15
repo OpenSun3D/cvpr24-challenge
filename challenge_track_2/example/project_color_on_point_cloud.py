@@ -1,4 +1,5 @@
-"""Projects the RGB color of the iPad camera frames on the 3D points of the laser scan
+"""
+Projects the RGB color of the iPad camera frames on the 3D points of the laser scan
 
 This example script demonstrates how to utilize the data assets and helper scripts in the SceneFun3D Toolkit. 
 """
@@ -11,7 +12,6 @@ import pandas as pd
 from plyfile import PlyData, PlyProperty
 from utils.data_parser import DataParser
 from utils.viz import viz_3d
-import imageio
 from utils.fusion_util import PointCloudToImageMapper
 from utils.pc_process import pc_estimate_normals
 
@@ -146,8 +146,8 @@ if __name__ == "__main__":
                 print("Skipping frame.")
                 continue
 
-            depth = dataParser.read_depth_frame(depth_frame_paths[frame_id]) #imageio.v2.imread(depth_frame_paths[frame_id]) / 1000
-            color = dataParser.read_rgb_frame(rgb_frame_paths[frame_id], normalize=True) #imageio.v2.imread(rgb_frame_paths[frame_id]) / 255.
+            depth = dataParser.read_depth_frame(depth_frame_paths[frame_id]) 
+            color = dataParser.read_rgb_frame(rgb_frame_paths[frame_id], normalize=True) 
 
             # calculate the 3d-2d mapping based on the depth
             mapping = np.ones([n_points, 4], dtype=int)
