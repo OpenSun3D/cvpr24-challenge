@@ -566,7 +566,7 @@ class DataParser:
         Returns:
             (numpy.ndarray): The depth frame as a NumPy array with the depth values.
         """
-        
+
         depth = imageio.v2.imread(full_frame_path) / conversion_factor
 
         return depth
@@ -580,7 +580,7 @@ class DataParser:
             return_indices (bool, optional): Whether to return the indices of the cropped points. Defaults to False.
 
         Returns:
-            numpy.ndarray or tuple: The crop mask loaded from the file. If `return_indices` is True, returns a tuple containing the indices of the cropped points.
+            (numpy.ndarray): The crop mask loaded from the file. If `return_indices` is False, returns a Numpy array that is a binary mask of the indices to keep. If `return_indices` is True, returns a Numpy array containing the indices of the points to keep.
         """
         crop_mask_path = os.path.join(self.data_root_path, visit_id, f"{visit_id}_crop_mask.npy")
         crop_mask = np.load(crop_mask_path)
