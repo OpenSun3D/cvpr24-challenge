@@ -7,7 +7,7 @@ import open3d as o3d
 import glob
 import imageio
 import utils.homogenous as hm
-from utils.rigid_interpolation import rigid_interp_split
+from utils.rigid_interpolation import rigid_interp_split, rigid_interp_geodesic
 
 def decide_pose(pose):
     """
@@ -71,9 +71,10 @@ def st2_camera_intrinsics(filename, format="tuple"):
                                 Supported formats are "tuple" and "matrix". Defaults to "tuple".
 
     Returns:
-        (tuple) or (numpy.ndarray): Camera intrinsic parameters in the specified format.
-                                If format is "tuple", returns a tuple (w, h, fx, fy, hw, hh).
-                                If format is "matrix", returns a 3x3 numpy array representing the camera matrix.
+        (Union[tuple, numpy.ndarray]): Camera intrinsic parameters in the specified format.
+
+            - If format is "tuple", returns a tuple \\(w, h, fx, fy, hw, hh\\).
+            - If format is "matrix", returns a 3x3 numpy array representing the camera matrix.
     
     Raises:
         ValueError: If an unsupported format is specified.
@@ -95,23 +96,26 @@ def convert_angle_axis_to_matrix3(angle_axis):
         angle_axis (numpy.ndarray): A 3-element array representing the rotation in angle-axis form [angle, axis_x, axis_y, axis_z].
 
     Returns:
-        numpy.ndarray: A 3x3 rotation matrix representing the same rotation as the input angle-axis.
+        (numpy.ndarray): A 3x3 rotation matrix representing the same rotation as the input angle-axis.
 
     """
     matrix, jacobian = cv2.Rodrigues(angle_axis)
     return matrix
 
 def TrajStringToMatrix(traj_str):
-    """ convert traj_str into translation and rotation matrices
+    """ 
+    Converts a line from the camera trajectory file into translation and rotation matrices
+
     Args:
-        traj_str: A space-delimited file where each line represents a camera position at a particular timestamp.
-        The file has seven columns:
-        * Column 1: timestamp
-        * Columns 2-4: rotation (axis-angle representation in radians)
-        * Columns 5-7: translation (usually in meters)
+        traj_str (str): A space-delimited file where each line represents a camera pose at a particular timestamp. The file has seven columns:
+
+            - Column 1: timestamp
+            - Columns 2-4: rotation (axis-angle representation in radians)
+            - Columns 5-7: translation (usually in meters)
 
     Returns:
-        tuple: Tuple containing:
+        (tuple): Tuple containing:
+
                - ts (str): Timestamp.
                - Rt (numpy.ndarray): Transformation matrix representing rotation and translation.
 
@@ -233,7 +237,7 @@ class DataParser:
                                     Defaults to "point_cloud".
 
         Returns:
-            Union[open3d.geometry.PointCloud, open3d.geometry.TriangleMesh]: 
+            (Union[open3d.geometry.PointCloud, open3d.geometry.TriangleMesh]): 
                 The loaded mesh reconstruction data in the specified format.
 
         Raises:
@@ -318,6 +322,7 @@ class DataParser:
 
         Returns:
             (tuple): A tuple containing:
+
                 - frame_ids (list): A list of frame IDs.
                 - frame_paths (dict): A dictionary mapping frame IDs to their corresponding file paths.
                 - intrinsics (dict): A dictionary mapping frame IDs to their camera intrinsics.
@@ -373,8 +378,9 @@ class DataParser:
     def get_nearest_pose(self, 
                          desired_timestamp,
                          poses_from_traj, 
-                         use_interpolation = False, 
                          time_distance_threshold = np.inf,
+                         use_interpolation = False,
+                         interpolation_method = 'split',
                          frame_distance_threshold = np.inf):
         """
         Get the nearest pose to a desired timestamp from a dictionary of poses.
@@ -382,15 +388,22 @@ class DataParser:
         Args:
             desired_timestamp (float): The timestamp of the desired pose.
             poses_from_traj (dict): A dictionary where keys are timestamps and values are 4x4 transformation matrices representing poses.
-            use_interpolation (bool, optional): Whether to use interpolation to find the nearest pose. Defaults to False.
             time_distance_threshold (float, optional): The maximum allowable time difference between the desired timestamp and the nearest pose timestamp. Defaults to np.inf.
+            use_interpolation (bool, optional): Whether to use interpolation to find the nearest pose. Defaults to False.
+            interpolation_method (str, optional): Supports two options, "split" or "geodesic_path". Defaults to "split".
+
+                - "split": performs rigid body motion interpolation in SO(3) x R^3
+                - "geodesic_path": performs rigid body motion interpolation in SE(3)
             frame_distance_threshold (float, optional): The maximum allowable distance in terms of frame difference between the desired timestamp and the nearest pose timestamp. Defaults to np.inf.
 
         Returns:
-            numpy.ndarray or None: The nearest pose as a 4x4 transformation matrix if found within the thresholds, else None.
+            (Union[numpy.ndarray, None]): The nearest pose as a 4x4 transformation matrix if found within the specified thresholds, else None.
+
+        Raises:
+            ValueError: If an unsupported interpolation method is specified.
 
         Note:
-            If `use_interpolation` is True, the function may perform linear interpolation between two nearest poses to estimate the desired pose. 
+            If `use_interpolation` is True, the function will perform rigid body motion interpolation between two nearest poses to estimate the desired pose. 
             The thresholds `time_distance_threshold` and `frame_distance_threshold` are used to control how tolerant the function is towards deviations in time and frame distance.
         """
 
@@ -413,9 +426,6 @@ class DataParser:
                     [x for x in poses_from_traj.keys() if float(x) < float(desired_timestamp) ], 
                     key=lambda x: abs(float(x) - float(desired_timestamp))
                 )
-                # print(desired_timestamp)
-                # print(greater_closest_timestamp)
-                # print(smaller_closest_timestamp)
 
                 if abs(float(greater_closest_timestamp) - float(desired_timestamp)) > time_distance_threshold or \
                     abs(float(smaller_closest_timestamp) - float(desired_timestamp)) > time_distance_threshold:
@@ -427,18 +437,29 @@ class DataParser:
                 H0_t = hm.trans(H0)
                 H1_t = hm.trans(H1)
 
-                # print(np.linalg.norm(H0_t - H1_t) / (float(greater_closest_timestamp) - float(smaller_closest_timestamp)))
                 if np.linalg.norm(H0_t - H1_t) > frame_distance_threshold:
                     # print("Skipping frame.")
                     return None
 
-                H = rigid_interp_split(
-                    float(desired_timestamp), 
-                    poses_from_traj[smaller_closest_timestamp], 
-                    float(smaller_closest_timestamp), 
-                    poses_from_traj[greater_closest_timestamp], 
-                    float(greater_closest_timestamp)
-                )
+                if interpolation_method == "split":
+                    H = rigid_interp_split(
+                        float(desired_timestamp), 
+                        poses_from_traj[smaller_closest_timestamp], 
+                        float(smaller_closest_timestamp), 
+                        poses_from_traj[greater_closest_timestamp], 
+                        float(greater_closest_timestamp)
+                    )
+                elif interpolation_method == "geodesic_path":
+                    H = rigid_interp_geodesic(
+                        float(desired_timestamp), 
+                        poses_from_traj[smaller_closest_timestamp], 
+                        float(smaller_closest_timestamp), 
+                        poses_from_traj[greater_closest_timestamp], 
+                        float(greater_closest_timestamp)
+                    )
+                else:
+                    raise ValueError(f"Unknown interpolation method {interpolation_method}")
+
             else:
                 closest_timestamp = min(
                     poses_from_traj.keys(), 
@@ -515,7 +536,7 @@ class DataParser:
         refined_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_refined_transform.npy")
         return refined_transform_path
     
-    def read_rgb_frame(full_frame_path, normalize=False):
+    def read_rgb_frame(self, full_frame_path, normalize=False):
         color = imageio.v2.imread(full_frame_path)
 
         if normalize:
@@ -523,7 +544,7 @@ class DataParser:
 
         return color
     
-    def read_depth_frame(full_frame_path, conversion_factor=1000):
+    def read_depth_frame(self, full_frame_path, conversion_factor=1000):
         depth = imageio.v2.imread(full_frame_path) / conversion_factor
 
         return depth
