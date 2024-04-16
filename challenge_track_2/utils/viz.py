@@ -6,10 +6,7 @@ def viz_3d(to_plot_list, show_coordinate_system=False):
 
     if show_coordinate_system:
         coordinate_system = o3d.geometry.TriangleMesh.create_coordinate_frame()
-        
-        # to_plot_list_ = copy.deepcopy(to_plot_list)
-        # to_plot_list_.append(coordinate_system)
-        # o3d.visualization.draw_geometries(to_plot_list_)
+
         o3d.visualization.draw_geometries([*to_plot_list, coordinate_system])
     else:
         o3d.visualization.draw_geometries(to_plot_list)
