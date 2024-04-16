@@ -18,7 +18,7 @@ def pc_downsample(pcd_combined, voxel_size=0.005):
 
     return downpcd
 
-# estimate normals
+# estimate normals of a point cloud
 def pc_estimate_normals(pcd, radius = 0.1, max_nn = 16):
     pcd.estimate_normals(search_param = o3d.geometry.KDTreeSearchParamHybrid(radius = radius, max_nn = max_nn))
 

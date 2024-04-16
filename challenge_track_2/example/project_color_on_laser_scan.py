@@ -24,7 +24,7 @@ frame_distance_threshold = np.inf #0.1
 visibility_threshold=0.25
 cut_bound=5
 
-vis_result = True #False
+vis_result = True
 ##################
 ##################
 
@@ -35,36 +35,43 @@ if __name__ == "__main__":
     parser.add_argument(
         "--split",
         choices=["dev", "test"],
+        help="Specify the split of the data"
     )
 
     parser.add_argument(
         "--data_dir",
-        default="data", # folder of the data
+        default="data",
+        help="Specify the path of the data"
     )
 
     parser.add_argument(
-        "--video_id_csv", # the list of visit and video ids to process
+        "--video_id_csv",
+        help="Specify the path of the .csv file which contains the {visit_id, video_id} list"
     )
 
     parser.add_argument(
         "--continue_video_id",
-        default="0", 
+        default="0",
+        help="Specify the video_id to start processing from in the video_id_csv"
     )
 
     parser.add_argument(
         "--coloring_asset",
-        default="wide", # choose the RGBD assets to use for coloring {wide, lowres_wide}
-        choices=["wide", "lowres_wide"]
+        default="wide",
+        choices=["wide", "lowres_wide"],
+        help="Specify the RGB data asset to use for projecting the color to the laser scan"
     )
 
     parser.add_argument(
-        "--crop_extraneous", # whether to crop extraneous points from the laser scan based on the ARKit mesh reconstruction bboxes
+        "--crop_extraneous",
         action="store_true",
+        help="Specify whether to crop the extraneous points from the laser scan"
     )
 
     parser.add_argument(
-        "--save_as_float32", # whether to save the output 
+        "--save_as_float32",
         action="store_true",
+        help="Specify whether to store the output point cloud"
     )
 
     args = parser.parse_args()
@@ -73,15 +80,12 @@ if __name__ == "__main__":
         'video_id_csv must be specified'
     
     continue_visit_id = int(args.continue_video_id)
-    # split = "train" if args.split == "Training" else "val"
+    
     split = args.split
 
     use_interpolation = True if args.coloring_asset == "wide" else False
 
-    df = pd.read_csv(args.video_id_csv)
-
-    print(args.save_as_float32)
-    
+    df = pd.read_csv(args.video_id_csv)    
 
     number_of_visits = len(df.index)
 
@@ -92,7 +96,6 @@ if __name__ == "__main__":
 
         visit_id = str(row['visit_id'])
         video_id = str(row['video_id'])
-
 
         print(f"Processing video_id {video_id} (visit_id: {visit_id}) ...")
 
@@ -133,7 +136,6 @@ if __name__ == "__main__":
             cut_bound=cut_bound
         )
 
-
         counter = np.zeros((n_points, 1))
         sum_features = np.zeros((n_points, 3))
         n = len(frame_ids)
@@ -167,12 +169,13 @@ if __name__ == "__main__":
         feat_bank[feat_bank[:, 0:3] == [0., 0., 0.]] = 169. / 255
 
         pcd.colors = o3d.utility.Vector3dVector(feat_bank)
-
-        output_path = os.path.join(args.data_dir, split, visit_id, video_id, f"{video_id}_color_proj_{args.coloring_asset}.ply")
-        o3d.io.write_point_cloud(output_path, pcd)
-
-        # convert float64 to float32
+        
         if args.save_as_float32:
+            # save the output point cloud
+            output_path = os.path.join(args.data_dir, split, visit_id, video_id, f"{video_id}_color_proj_{args.coloring_asset}.ply")
+            o3d.io.write_point_cloud(output_path, pcd)
+
+            # convert float64 to float32
             plydata = PlyData.read(output_path)
             vertex = plydata['vertex']
             vertex.properties = (

@@ -1,4 +1,7 @@
 # Helpers for parsing the data
+#
+# SceneFun3D Toolkit
+#
 
 import numpy as np
 import cv2
@@ -25,11 +28,11 @@ def decide_pose(pose):
     z_vec = pose[2, :3]
     z_orien = np.array(
         [
-            [0.0, -1.0, 0.0],  # upright
-            [-1.0, 0.0, 0.0],  # left
-            [0.0, 1.0, 0.0],  # upside-down
-            [1.0, 0.0, 0.0],
-        ]  # right
+            [0.0, -1.0, 0.0], # upright
+            [-1.0, 0.0, 0.0], # left
+            [0.0, 1.0, 0.0], # upside-down
+            [1.0, 0.0, 0.0], # right
+        ]  
     )
     corr = np.matmul(z_orien, z_vec)
     corr_max = np.argmax(corr)

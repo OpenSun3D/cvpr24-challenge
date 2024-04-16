@@ -1,4 +1,10 @@
-# modified from https://github.com/apple/ARKitScenes/blob/main/download_data.py
+"""
+Data Download helpers
+
+SceneFun3D Toolkit
+
+modified from https://github.com/apple/ARKitScenes/blob/main/download_data.py
+"""
 
 import argparse
 import subprocess
@@ -14,10 +20,6 @@ VALIDATION = 'Validation'
 HIGRES_DEPTH_ASSET_NAME = 'highres_depth'
 POINT_CLOUDS_FOLDER = 'laser_scanner_point_clouds'
 
-# default_raw_dataset_assets = ['mov', 'annotation', 'mesh', 'confidence', 'highres_depth', 'lowres_depth',
-#                  'lowres_wide.traj', 'lowres_wide', 'lowres_wide_intrinsics', 'ultrawide',
-#                  'ultrawide_intrinsics', 'vga_wide', 'vga_wide_intrinsics', 'wide', 'wide_intrinsics']
-
 default_raw_dataset_assets = [
     'lowres_wide',
     'lowres_wide_intrinsics',
@@ -30,7 +32,7 @@ default_raw_dataset_assets = [
     'vga_wide_intrinsics',
     'ultrawide',
     'ultrawide_intrinsics',
-    'lowres_wide.traj',
+    'camera_trajectory',
     'vid_mov',
     'vid_mp4',
     'mesh',
@@ -58,7 +60,7 @@ def visit_raw_files(visit_id, assets, metadata):
     file_names = []
     for asset in assets:
         if asset == 'laser_scan_5mm':
-            file_names.append(f'{visit_id}_laser_scan.ply') # TODO change filename
+            file_names.append(f'{visit_id}_laser_scan.ply')
         elif asset == 'crop_mask':
             file_names.append(f'{visit_id}_crop_mask.npy')
         else:
@@ -85,7 +87,7 @@ def video_raw_files(video_id, assets, metadata):
         elif asset == '3dod_annotation':
             if video_id not in missing_3dod_assets_video_ids:
                 file_names.append(f'{video_id}_3dod_annotation.json')
-        elif asset == 'lowres_wide.traj':
+        elif asset == 'camera_trajectory':
             if video_id not in missing_3dod_assets_video_ids:
                 file_names.append('lowres_wide.traj')
         elif asset == 'transform':
@@ -205,7 +207,7 @@ def download_assets_for_visit_id(visit_id, download_dir, split, dataset_assets, 
     else:
         dst_dir = download_dir #os.path.join(download_dir, str(visit_id))
         split_scenefun3d = "train" if split == "Training" else "test"
-        url_prefix = f"{SceneFun3D_url}/{split_scenefun3d}/{visit_id}" + "/{}" # TODO
+        url_prefix = f"{SceneFun3D_url}/{split_scenefun3d}/{visit_id}" + "/{}"
         file_names = visit_raw_files(visit_id, dataset_assets, metadata)
 
     for file_name in file_names:

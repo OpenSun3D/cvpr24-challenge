@@ -17,32 +17,33 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--split",
-        choices=["challenge_dev_set"]
-        # choices=["Training", "Validation"], #challenge_dev_set, challenge_test_set
+        choices=["challenge_dev_set", "sample_scene"],
+        help="Specify the split of the data"
     )
 
     parser.add_argument(
         "--download_dir",
         default="data",
+        help="Specify the path of the data"
     )
 
-    # parser.add_argument(
-    #     "--visit_id_csv", # two types available {visit_id, video_id, #laser_scans} , {visit_id, #laser_scans}
-    # )
     parser.add_argument(
-        "--download_only_one_video",
-        action="store_true"
+        "--download_only_one_video_sequence",
+        action="store_true",
+        help="Specify whether to download only one video sequence (the one with the highest number of frames)"
     )
 
     parser.add_argument(
         "--dataset_assets",
         nargs='+',
-        choices=default_raw_dataset_assets
+        choices=default_raw_dataset_assets,
+        help="Specify the identifier list of the data assets to download"
     )
 
     parser.add_argument(
         "--continue_video_id",
         default="0",
+        help="Specify the video_id to start downloading from in the file list"
     )
 
     args = parser.parse_args()
@@ -65,11 +66,12 @@ if __name__ == "__main__":
     os.makedirs(assets_folder_path, exist_ok=True)
 
     video_id_csv = None
-    if args.split == "challenge_dev_set" and args.download_only_one_video:
+    if args.split == "challenge_dev_set" and args.download_only_one_video_sequence:
         video_id_csv = "challenge_file_lists/dev_set_only_one_video.csv"
     elif args.split == "challenge_dev_set":
         video_id_csv = "challenge_file_lists/dev_set.csv"
-
+    elif args.split == "sample_scene":
+        video_id_csv = "challenge_file_lists/sample_scene.csv"
     df = pd.read_csv(video_id_csv)
 
     if continue_video_id > 0:
