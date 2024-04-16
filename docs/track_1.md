@@ -9,7 +9,7 @@
 
 <!-- ![Track 1 teaser](assets/track1_teaser.png) -->
 <p align="center">
-<img src="/cvpr24-challenge/assets/track1_teaser.png" alt="Track 1 teaser" width="620"/>
+<img src="/assets/track1_teaser.png" alt="Track 1 teaser" width="620"/>
 </p>
 
 
@@ -27,6 +27,17 @@ The ability to perceive, understand and interact with arbitrary 3D environments 
 - Submission Portal Start: April 15, 2024
 - Test Phase Start: May 1, 2024
 - Test Phase End: June 8, 2024 (23:59 Pacific Time)
+
+
+## Task description
+
+In the second track of our workshop challenge, we propose the following challenge:
+
+>**TASK:** Given an open-vocabulary, text-based query, the aim is to localize and segment the object instances that fit best with the given prompt, which might describe object properties such as semantics, material type, affordances and situational context. 
+
+>**INPUT:**  An RGB-D sequence and the 3D reconstruction of a given scene, camera parameters, and a text-based input query.
+
+>**OUTPUT:** Instance segmentation of the point cloud that corresponds to the vertices of the provided 3D mesh reconstruction, segmenting the objects that fit best with the given prompt.
 
 <!-- * `mkdocs new [dir-name]` - Create a new project.
 * `mkdocs serve` - Start the live-reloading docs server.
