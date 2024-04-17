@@ -1158,7 +1158,11 @@ pip install -r requirements.txt
 <h2 id="submission-instructions">Submission Instructions</h2>
 <p>Coming soon.</p>
 <h2 id="evaluation-guidelines">Evaluation Guidelines</h2>
-<p>In order to evaluate the results, we provide <a href="https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_eval/eval_utils/eval_script_inst.py">evaluation functions</a> as well as an example <a href="https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_eval/demo_eval.py">evaluation script</a>. We follow the standard evaluation for 3D instance segmentation, and compute Average Precision (AP) scores. The evaluation script computes the AP scores for each language task description and then averages the scores over all language task descriptions in the set. </p>
+<p>In order to evaluate the results on the scenes of the dev set, we provide <a href="https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_eval/eval_utils/eval_script_inst.py">evaluation functions</a> as well as an example <a href="https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_eval/demo_eval.py">evaluation script</a>. We follow the standard evaluation for 3D instance segmentation, and compute Average Precision (AP) scores. The evaluation script computes the AP scores for each language task description and then averages the scores over all language task descriptions in the set. </p>
+<p>You can run the example evaluation script as:</p>
+<pre><code>python -m benchmark_eval.demo_eval --pred_dir &lt;pred_dir&gt; --gt_dir benchmark_data/gt_development_scenes
+</code></pre>
+<p>where <code>&lt;pred_dir&gt;</code> is the directory containing the predictions. The predictions must be organized in the submission format, containing <code>&lt;visit_id&gt;_&lt;desc_id&gt;.txt</code> files and <code>predicted_masks/</code> folder including all masks.</p>
 <h2 id="contact-us">Contact Us</h2>
 <p>For any technical issues or questions regarding the challenge, please raise an issue on the <a href="https://github.com/OpenSun3D/cvpr24-challenge/issues">Github repo</a>.</p>
 <p>For direct contact, or any concerns: <a href="mailto:adelitzas@student.ethz.ch">email us</a>.</p>
