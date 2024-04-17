@@ -1,6 +1,7 @@
 # Based on https://github.com/ScanNet/ScanNet/tree/master/BenchmarkScripts
 # Adapted, April 2024
 
+import argparse
 import os
 import numpy as np
 from benchmark_eval.eval_utils.eval_script_inst import evaluate
@@ -42,6 +43,18 @@ def main(pred_dir, gt_dir):
     print(ap_dict)
  
 if __name__=='__main__':
-    pred_dir = "PATH/TO/RESULTS" # Predictions in the submission format, containing '<visit_id>_<desc_id>.txt' files and 'predicted_masks' folder including all masks
-    gt_dir = "PATH/TO/GT" # Folder containing <visit_id>_<desc_id>.txt files for gt annotations, see https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_data/gt_development_scenes
-    main(pred_dir, gt_dir)
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--pred_dir",
+        help="Specify the predictions directory. Predictions must be in the submission format, containing '<visit_id>_<desc_id>.txt' files and 'predicted_masks/' folder including all masks."
+    )
+
+    parser.add_argument(
+        "--gt_dir",
+        help="Specify the GT annotations directory. It must contain <visit_id>_<desc_id>.txt files for gt annotations, see https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_data/gt_development_scenes"
+    )
+
+    args = parser.parse_args()
+
+    main(args.pred_dir, args.gt_dir)
