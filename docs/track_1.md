@@ -57,7 +57,7 @@ This section will guide you about how to download the dataset, and explain the d
 
 
 ### **Challenge Phases**
-Our challenge consists of two phases: *Development Phase*, and *Test Phase*.
+Our challenge consists of two phases: *Development Phase* and *Test Phase*.
 
 - In the first phase, the *Development Phase*, the challenge participants can download and use the whole *Training* split of the ARKitScenes dataset for their experiments. From these *Training* scenes, we annotate a few example scenes for development purposes. More specifically, for each example scene, we first specify an open-vocabulary query, and then manually annotate objects corresponding to the given query, by segmenting them in the point cloud of the given scene. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](https://eval.ai/web/challenges/challenge-page/2102/submission) in the challenge website.
 
@@ -152,7 +152,7 @@ Data formats are described in the following:
 
 You can explore the [`demo_dataloader_lowres.py`](https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/demo_dataloader_lowres.py) file in order to better understand how to load and use the downloaded data. You can simply set the data root directory, the name of the data subset and the ID of the scene you would like to load, as follows:
 ```
-    arkitscenes_root_dir = "PATH/TO/ARKITSCENES/DOWNLOAD/DIR
+    arkitscenes_root_dir = "PATH/TO/ARKITSCENES/DOWNLOAD/DIR"
     data_type = "ChallengeDevelopmentSet" # or "ChallengeTestSet"
     scene_id = "42445173" # an example scene ID
 ```

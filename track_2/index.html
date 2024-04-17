@@ -925,7 +925,7 @@ Most existing methods in 3D scene understanding are heavily focused on understan
 <p><strong>OUTPUT:</strong> Instance segmentation of the point cloud that corresponds to the vertices of the provided laser scan, segmenting the functional interactive elements that the agent needs to manipulate.</p>
 </blockquote>
 <h2 id="install-dependencies">Install dependencies</h2>
-<p>All the code related with this challenge track can be found in this <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_2">Github repo</a>.</p>
+<p>All the code related with this challenge track can be found in this <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_2">Github repo</a>.</p>
 <p><strong>Download the code repository</strong>:</p>
 <pre><code>git clone git@github.com:OpenSun3D/cvpr24-challenge.git
 cd cvpr24-challenge/challenge_track_2
@@ -941,7 +941,7 @@ pip install -r requirements.txt
 <p><strong>Important Note:</strong> As the SceneFun3D dataset is built upon the ARKitScenes dataset, by following the instructions to download the data, you also agree with the <a href="https://github.com/apple/ARKitScenes/blob/main/LICENSE">license &amp; terms and conditions of the ARKitScenes dataset</a>, as well as the <a href="https://github.com/apple/ARKitScenes/blob/main/CODE_OF_CONDUCT.md">code of conduct</a> provided in the original ARKitScenes repository. </p>
 </blockquote>
 <h3 id="challenge-phases">Challenge Phases</h3>
-<p>Our challenge consists of two phases: <em>Development Phase</em>, and <em>Test Phase</em>.</p>
+<p>Our challenge consists of two phases: <em>Development Phase</em> and <em>Test Phase</em>.</p>
 <ul>
 <li>
 <p>In the first phase, the <em>Development Phase</em>, the challenge participants can download and use the <em>dev</em> split for their experiments, which is based on a small subset of the <em>Training</em> set of the SceneFun3D dataset. From these <em>dev</em> scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the <em>Challenge Development</em> set. The participants can upload their predictions on scenes from the <em>Challenge Development</em> set to the <a href="https://eval.ai/web/challenges/challenge-page/2262/">Phase 1 - Development Benchmark</a> in the submission webpage.</p>
@@ -1152,7 +1152,7 @@ pip install -r requirements.txt
 </li>
 </ul>
 <p>For example, to run the script on the sample scene which you have stored under <code>data/</code>:</p>
-<pre><code>python -m example.project_color_on_point_cloud --split dev --data_dir data/ --video_id_csv challenge_file_lists/sample scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
+<pre><code>python -m example.project_color_on_point_cloud --split dev --data_dir data/ --video_id_csv benchmark_file_lists/sample scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
 </code></pre>
 <p>where the <code>wide</code> RGB frames are used for coloring, the extraneous point will be cropped from the laser scan and the output will be stored.</p>
 <h2 id="submission-instructions">Submission Instructions</h2>

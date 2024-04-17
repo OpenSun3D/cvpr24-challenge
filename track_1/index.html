@@ -921,7 +921,7 @@ The ability to perceive, understand and interact with arbitrary 3D environments 
 <p><strong>Important Note:</strong> By following the instructions to download the dataset, you agree with the <a href="https://github.com/apple/ARKitScenes/blob/main/LICENSE">license &amp; terms and conditions of the ARKitScenes dataset</a>, as well as the <a href="https://github.com/apple/ARKitScenes/blob/main/CODE_OF_CONDUCT.md">code of conduct</a> provided in the original ARKitScenes repository. </p>
 </blockquote>
 <h3 id="challenge-phases"><strong>Challenge Phases</strong></h3>
-<p>Our challenge consists of two phases: <em>Development Phase</em>, and <em>Test Phase</em>.</p>
+<p>Our challenge consists of two phases: <em>Development Phase</em> and <em>Test Phase</em>.</p>
 <ul>
 <li>
 <p>In the first phase, the <em>Development Phase</em>, the challenge participants can download and use the whole <em>Training</em> split of the ARKitScenes dataset for their experiments. From these <em>Training</em> scenes, we annotate a few example scenes for development purposes. More specifically, for each example scene, we first specify an open-vocabulary query, and then manually annotate objects corresponding to the given query, by segmenting them in the point cloud of the given scene. We refer to this subset as the <em>Challenge Development</em> set. The participants can upload their predictions on scenes from the <em>Challenge Development</em> set to the <a href="https://eval.ai/web/challenges/challenge-page/2102/submission">Phase 1 - Development Benchmark</a> in the challenge website.</p>
@@ -997,7 +997,7 @@ This data folder will include two directories, <code>ChallengeDevelopmentSet</co
 <p>IMPORTANT NOTE: We are providing helper functions and an example dataloader in <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/demo_dataloader_lowres.py"><code>demo_dataloader_lowres.py</code></a> to load images from <em>low res. RGB-D sequence</em>, as well as the corresponding <em>camera intrinsics</em> and <em>poses</em>. If you need anything else, please refer to the helper functions in the <a href="https://github.com/apple/ARKitScenes">original ARKitScenes repository</a>. Furthermore, additional details about what each folder refers to is provided in <a href="https://github.com/apple/ARKitScenes/blob/main/raw/README.md">this page</a> from the original ARKitScenes repository.</p>
 </blockquote>
 <p>You can explore the <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/demo_dataloader_lowres.py"><code>demo_dataloader_lowres.py</code></a> file in order to better understand how to load and use the downloaded data. You can simply set the data root directory, the name of the data subset and the ID of the scene you would like to load, as follows:</p>
-<pre><code>    arkitscenes_root_dir = &quot;PATH/TO/ARKITSCENES/DOWNLOAD/DIR
+<pre><code>    arkitscenes_root_dir = &quot;PATH/TO/ARKITSCENES/DOWNLOAD/DIR&quot;
     data_type = &quot;ChallengeDevelopmentSet&quot; # or &quot;ChallengeTestSet&quot;
     scene_id = &quot;42445173&quot; # an example scene ID
 </code></pre>

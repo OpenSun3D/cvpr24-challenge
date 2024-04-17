@@ -45,7 +45,7 @@ In the second track of our workshop challenge, we propose the following challeng
 
 ## Install dependencies
 
-All the code related with this challenge track can be found in this [Github repo](https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_2).
+All the code related with this challenge track can be found in this [Github repo](https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_2).
 
 **Download the code repository**:
 ```
@@ -68,7 +68,7 @@ For this challenge track, we use part of the [SceneFun3D](https://scenefun3d.git
 >**Important Note:** As the SceneFun3D dataset is built upon the ARKitScenes dataset, by following the instructions to download the data, you also agree with the [license & terms and conditions of the ARKitScenes dataset](https://github.com/apple/ARKitScenes/blob/main/LICENSE), as well as the [code of conduct](https://github.com/apple/ARKitScenes/blob/main/CODE_OF_CONDUCT.md) provided in the original ARKitScenes repository. 
 
 ### Challenge Phases
-Our challenge consists of two phases: *Development Phase*, and *Test Phase*.
+Our challenge consists of two phases: *Development Phase* and *Test Phase*.
 
 - In the first phase, the *Development Phase*, the challenge participants can download and use the *dev* split for their experiments, which is based on a small subset of the *Training* set of the SceneFun3D dataset. From these *dev* scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage.
 
@@ -245,7 +245,7 @@ where the supported arguments are:
 For example, to run the script on the sample scene which you have stored under `data/`:
 
 ```
-python -m example.project_color_on_point_cloud --split dev --data_dir data/ --video_id_csv challenge_file_lists/sample scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
+python -m example.project_color_on_point_cloud --split dev --data_dir data/ --video_id_csv benchmark_file_lists/sample scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
 ```
 
 where the `wide` RGB frames are used for coloring, the extraneous point will be cropped from the laser scan and the output will be stored.
