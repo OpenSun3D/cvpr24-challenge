@@ -43,6 +43,24 @@ In the second track of our workshop challenge, we propose the following challeng
 
 >**OUTPUT:** Instance segmentation of the point cloud that corresponds to the vertices of the provided laser scan, segmenting the functional interactive elements that the agent needs to manipulate.
 
+## Install dependencies
+
+All the code related with this challenge track can be found in this [Github repo](https://github.com/OpenSun3D/cvpr24-challenge).
+
+**Download the code repository**:
+```
+git clone git@github.com:OpenSun3D/cvpr24-challenge.git
+cd cvpr24-challenge/challenge_track_2
+```
+
+**Create virtual environment**:
+```
+conda create --name opensun3d_track2 python=3.8
+conda activate opensun3d_track2
+pip install -r requirements.txt
+```
+
+
 ## Data download instructions
 
 For this challenge track, we use part of the [SceneFun3D](https://scenefun3d.github.io) dataset.
@@ -52,9 +70,9 @@ For this challenge track, we use part of the [SceneFun3D](https://scenefun3d.git
 ### Challenge Phases
 Our challenge consists of two phases: *Development Phase*, and *Test Phase*.
 
-- In the first phase, the *Development Phase*, the challenge participants can download and use the *dev* split for their experiments, which is based on a small subset of the *Training* set of the SceneFun3D dataset. From these *dev* scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](TODO) in the submission webpage.
+- In the first phase, the *Development Phase*, the challenge participants can download and use the *dev* split for their experiments, which is based on a small subset of the *Training* set of the SceneFun3D dataset. From these *dev* scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage.
 
-- In the second phase, the *Test Phase*, we provide the scenes from the *test* split of the SceneFun3D dataset, we refer to this subset as the *Challenge Test* set. For each of these scenes, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the *Challenge Test* to the [Phase 2 - Test Benchmark](TODO) in the submission webpage.
+- In the second phase, the *Test Phase*, we provide the scenes from the *test* split of the SceneFun3D dataset, we refer to this subset as the *Challenge Test* set. For each of these scenes, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the *Challenge Test* to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage. Data for this phase will be made available for downloading by May 1st, 2024, this will be announced on our website.
 
 
 ### Data organization and format
@@ -67,22 +85,22 @@ PATH/TO/DATA/DIR/{dev or test}/
 |   ├── {visit_id}.ply # combined Faro laser scan with 5mm resolution
 |   ├── {visit_id}_crop_mask.npy # binary mask to crop extraneous points from the combined laser scan
 |   ├── {video_id}/ # data assets for the video sequence with id {video_id}
-|   |   ├── lowres_wide/ # RGB images of the wide camera (256x192) - 60 FPS
+|   |   ├── lowres_wide/ # RGB images of the low res. wide camera (256x192) - 60 FPS
 |   |   |   ├── {video_id}_<timestamp>.png # filenames are indexed by timestamps
 |   |   |   └── ...
-|   |   ├── lowres_depth/ # the depth image acquired by AppleDepth Lidar (256x192)
+|   |   ├── lowres_depth/ # depth maps associated with the low res. frames (256x192)
 |   |   |   ├── {video_id}_<timestamp>.png # filenames are indexed by timestamps
 |   |   |   └── ...
-|   |   ├── lowres_wide_intrinsics/ # camera intrinsics for low res. camera
+|   |   ├── lowres_wide_intrinsics/ # camera intrinsics for the low res. wide camera
 |   |   |   ├── {video_id}_<timestamp>.pincam # filenames are indexed by timestamps
 |   |   |   └── ...
-|   |   ├── wide/ # the RGB images of the wide camera (1920x1440) - 10 FPS
+|   |   ├── wide/ # RGB images of the wide camera (1920x1440) - 10 FPS
 |   |   |   ├── {video_id}_<timestamp>.png # filenames are indexed by timestamps
 |   |   |   └── ...
-|   |   ├── highres_depth/ # camera intrinsics for high res. camera
+|   |   ├── highres_depth/ # depth maps associated with the high res. frames (1920x1440)
 |   |   |   ├──{video_id}_<timestamp>.png  # filenames are indexed by timestamps
 |   |   |   └── ...
-|   |   ├── wide_intrinsics/ # camera intrinsics for high res. camera
+|   |   ├── wide_intrinsics/ # camera intrinsics for the high res. wide camera
 |   |   |   ├── {video_id}_<timestamp>.pincam # filenames are indexed by timestamps
 |   |   |   └── ...
 |   |   ├── lowres_wide.traj # camera trajectory, each line contains the camera pose for a timestamp
@@ -118,7 +136,7 @@ Annotations are organized in two separate files and follow this format:
   {
     "annot_id": unique id of the annotation,
     "visit_id": the identifier of the scene,
-    "indices": the mask indices of the original point cloud ({visit_id}_laser_scan.ply) that comprise the functional interactive element instance
+    "indices": the mask indices of the original laser scan point cloud ({visit_id}_laser_scan.ply) that comprise the functional interactive element instance
   }, 
   ...
 ]
@@ -135,7 +153,7 @@ We provide a data downloader script that downloads and prepares the data.
 You can run as:
 
 ```
-python -m data_downloader.data_asset_download.py --split <split> --download_dir <download_dir> --download_only_one_video_sequence --dataset_assets <identifier list of data assets to download>
+python -m data_downloader.data_asset_download --split <split> --download_dir <download_dir> --download_only_one_video_sequence --dataset_assets <identifier list of data assets to download>
 ```
 
 where the supported arguments are:
@@ -154,12 +172,12 @@ Below you can find a list with the supported *data asset identifiers*. To downlo
 |-----------------------------|----------|-------------|
 | laser_scan_5mm | {visit_id}_laser_scan.ply | Combined Faro laser scan downsampled with a voxel size of 5mm   |
 | crop_mask | {visit_id}_crop_mask.npy | Binary mask to crop extraneous points from the combined laser scan |
-| lowres_wide | lowres_wide/ |   |
-| lowres_wide_intrinsics | lowres_wide_intrinsics/ |   |
-| lowres_depth | lowres_depth/ |   |
-| wide | wide/ |   |
-| wide_intrinsics |  wide_intrinsics | |
-| highres_depth | highres_depth/ |   |
+| lowres_wide | lowres_wide/ | RGB images of the low res. wide camera (256x192) - 60 FPS |
+| lowres_wide_intrinsics | lowres_wide_intrinsics/ | camera intrinsics for the low res. wide camera |
+| lowres_depth | lowres_depth/ | depth maps associated with the low res. frames (256x192) |
+| wide | wide/ | RGB images of the wide camera (1920x1440) - 10 FPS |
+| wide_intrinsics |  wide_intrinsics | camera intrinsics for the high res. wide camera |
+| highres_depth | highres_depth/ | depth maps associated with the high res. frames (1920x1440) |
 | camera_trajectory | lowres_wide.traj | Camera trajectory, each line contains the camera pose for a timestamp |
 | vid_mov | {video_id}.mov | Video captured with the camera in .mov format |
 | vid_mp4 | {video_id}.mp4 | Video captured with the camera in .mp4 format |
@@ -174,12 +192,12 @@ Below you can find a list with the supported *data asset identifiers*. To downlo
 To download the scenes in the development set, you can run:
 
 ```
-python -m data_downloader.data_asset_download.py --split challenge_dev_set --download_dir data/ --dataset_assets <identifier list of data assets to download>
+python -m data_downloader.data_asset_download --split challenge_dev_set --download_dir data/ --dataset_assets <identifier list of data assets to download>
 ```
 where you `<identifier list of data assets to download>` should be substituted with the identifiers of the data assets you want to download. For example, to download the combined laser scan, the low resolution RGB frames, depth maps and camera intrinsics, the camera trajectory and the transformation matrix, you can run:
 
 ```
-python -m data_downloader.data_asset_download.py --split challenge_dev_set --download_dir data/ --dataset_assets laser_scan_5mm lowres_wide lowres_depth lowres_wide_intrinsics camera_trajectory transform
+python -m data_downloader.data_asset_download --split challenge_dev_set --download_dir data/ --dataset_assets laser_scan_5mm lowres_wide lowres_depth lowres_wide_intrinsics camera_trajectory transform
 ```
 You can also add `--download_only_one_video_sequence`, if you want to download only one video sequence for each scene . This option will reduce the storage needed and the download time.
 
@@ -187,7 +205,7 @@ You can also add `--download_only_one_video_sequence`, if you want to download o
 
 In case you want to download only a single sample scene and a video sequence you can run:
 ```
-python -m data_downloader.data_asset_download.py --split sample_scene --download_dir data/ --dataset_assets <identifier list of data assets to download>
+python -m data_downloader.data_asset_download --split sample_scene --download_dir data/ --dataset_assets <identifier list of data assets to download>
 ```
 
 ### Test phase 
@@ -202,12 +220,12 @@ We provide data parsers and helper functions from the SceneFun3D toolkit [here](
 
 ## Example code
 
-We provide an [example script](/challenge_track_2/example/project_color_on_point_cloud.py) on how to handle the data assets and the data parsers. This script projects the color of the iPad camera frames on the combined Faro laser scan of the scene.
+We provide an [example script](https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_2/example/project_color_on_laser_scan.py) on how to handle the data assets and the data parsers. This script projects the color of the iPad camera frames on the combined Faro laser scan of the scene.
 
 You can run as
 
 ```
-python -m example.project_color_on_point_cloud --split <split> --data_dir <data_dir> --video_id_csv <video_id_csv> --coloring_asset <coloring_asset> --crop_extraneous --save_as_float32
+python -m example.project_color_on_laser_scan --split <split> --data_dir <data_dir> --video_id_csv <video_id_csv> --coloring_asset <coloring_asset> --crop_extraneous --save_as_float32
 ```
 
 where the supported arguments are:
@@ -239,13 +257,14 @@ Coming soon.
 ## Evaluation Guidelines
 
 Coming soon.
+<!-- In order to evaluate the results, we provide [evaluation functions](benchmark_scripts/eval_utils/eval_script_inst.py) as well as an example [evaluation script](demo_eval.py). We follow the standard evaluation for 3D instance segmentation, and compute Average Precision (AP) scores. The evaluation script computes the AP scores for each language task description and then averages the scores over all language task descriptions in the set.  -->
 
 ## Contact Us
 
 For any technical issues or questions regarding the challenge, please raise an issue on the [Github repo](https://github.com/OpenSun3D/cvpr24-challenge/issues).
 
 For direct contact, or any concerns: [email us](mailto:alex.delitzas@gmail.com).
-<!-- In order to evaluate the results, we provide [evaluation functions](benchmark_scripts/eval_utils/eval_script_inst.py) as well as an example [evaluation script](demo_eval.py). We follow the standard evaluation for 3D instance segmentation, and compute Average Precision (AP) scores. The evaluation script computes the AP scores for each scene and then averages the scores over all scenes.  -->
+
 
 <!-- * `mkdocs new [dir-name]` - Create a new project.
 * `mkdocs serve` - Start the live-reloading docs server.
