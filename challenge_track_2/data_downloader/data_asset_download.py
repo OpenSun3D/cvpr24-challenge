@@ -1,6 +1,7 @@
-####
-#### Basic Usage: python asset_prepare.py --split {Training, Validation} --visit_id_csv ./data_splits/{train_laser_scans.csv, val_laser_scans.csv} 
-#### -- Example: python asset_prepare.py --split Training --visit_id_csv ./data_splits/train_laser_scans.csv --dataset_assets mesh annotation
+"""
+Downloads the data assets in the SceneFun3D dataset
+
+"""
 
 import argparse
 import os
