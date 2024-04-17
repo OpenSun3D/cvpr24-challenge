@@ -1,0 +1,240 @@
+[
+    {
+        "desc_id":"a2645cef-a1a7-4130-a26a-3863f9c9dff4",
+        "annot_id":[
+            "f3213543-dfb6-47a7-bcca-c20232e20b59"
+        ],
+        "visit_id":420683,
+        "description":"Open the nightstand drawer on the right side of the bed"
+    },
+    {
+        "desc_id":"de9483a4-eeed-493b-83b1-720c34f14b01",
+        "annot_id":[
+            "7612d450-31b8-4c0c-bd9f-41e78d1c33c4"
+        ],
+        "visit_id":420683,
+        "description":"Turn on the ceiling light"
+    },
+    {
+        "desc_id":"96959633-e623-4a26-a3c5-e419e4fd174e",
+        "annot_id":[
+            "f886b692-e79d-454a-978a-6e2125010aee"
+        ],
+        "visit_id":420683,
+        "description":"Open the window above the radiator"
+    },
+    {
+        "desc_id":"76d18d56-2eed-4882-9e03-05038822e843",
+        "annot_id":[
+            "be6d42bb-57c3-4343-90f1-46bdbe768a40",
+            "77ce36a2-b625-46cd-86c7-3d4b2ce16903"
+        ],
+        "visit_id":420683,
+        "description":"Open the top drawer of the dresser"
+    },
+    {
+        "desc_id":"7eaea371-b33b-4076-92b1-587a709c6c65",
+        "annot_id":[
+            "abfa464c-5587-4297-963e-6ae8a95ee952",
+            "30f279d9-704c-457f-a067-d7b5a3e0ea9c"
+        ],
+        "visit_id":420683,
+        "description":"Plug the device in one of the sockets next to the radiator"
+    },
+    {
+        "desc_id":"cff96fcc-0c1d-4058-9a2c-d9a4cdaa17fd",
+        "annot_id":[
+            "075809ad-9ee5-4539-bc84-640909744f1d"
+        ],
+        "visit_id":421013,
+        "description":"Open the left wardrobe door"
+    },
+    {
+        "desc_id":"8580f8b3-4a9b-4a68-a62e-aa106af7f60d",
+        "annot_id":[
+            "e6050692-34d6-46f8-addf-dad51ecccf59"
+        ],
+        "visit_id":421013,
+        "description":"Open the bottom drawer of the wardrobe"
+    },
+    {
+        "desc_id":"548b5548-8f91-4368-ae2b-2ac2aab43c18",
+        "annot_id":[
+            "7c4d5671-a3fc-4734-b1f9-aa0b5d3f2f6e"
+        ],
+        "visit_id":421013,
+        "description":"Turn on the lamp on the nightstand located to the left of the bed"
+    },
+    {
+        "desc_id":"1452bcee-329b-49b2-9dfe-495e6681628d",
+        "annot_id":[
+            "1b2269c9-74dd-4f86-bcb2-d83c9d8ba209",
+            "82267b27-a993-4ade-8004-5463bf90583b",
+            "167ca036-1972-4fb9-934b-5705a1fc0f17"
+        ],
+        "visit_id":421015,
+        "description":"Increase the stovetop's heat"
+    },
+    {
+        "desc_id":"32a04c67-1c98-44e5-8d8e-4f10eba6ff20",
+        "annot_id":[
+            "d50ff731-6373-4735-914c-143af8f83471"
+        ],
+        "visit_id":421015,
+        "description":"Open the microwave door"
+    },
+    {
+        "desc_id":"6dfb09ec-3f05-48f1-aac6-22ef5ed60d16",
+        "annot_id":[
+            "854e13d4-6a6f-4258-adc5-6486675dc536"
+        ],
+        "visit_id":421015,
+        "description":"Plug the device in the left socket behind the couch"
+    },
+    {
+        "desc_id":"22ad30ea-13cb-4b9c-97bb-587a95545771",
+        "annot_id":[
+            "47f0cd97-e02e-423a-836f-ea2d7729879d",
+            "fc2b7b2b-f0af-4f09-854f-655b7b81068b"
+        ],
+        "visit_id":421063,
+        "description":"Flush the toilet"
+    },
+    {
+        "desc_id":"ebf0126c-7590-4ee1-a880-f49f7484255c",
+        "annot_id":[
+            "2b3a3938-2be9-4950-9192-1b67bfff5276"
+        ],
+        "visit_id":421063,
+        "description":"Throw the trash to the black bin next to the toilet"
+    },
+    {
+        "desc_id":"71e753ae-6ff4-478f-bbce-f528e8a6635d",
+        "annot_id":[
+            "79cb2a3d-bdc7-4a34-adac-fdbfe3c3f5fa"
+        ],
+        "visit_id":421254,
+        "description":"Open the top right drawer of the cabinet with the TV on top"
+    },
+    {
+        "desc_id":"b0527669-4ade-4c0c-aebe-67da23c4b714",
+        "annot_id":[
+            "583d3e0a-35d9-4f63-bc9d-63cf6ca375e0"
+        ],
+        "visit_id":421254,
+        "description":"Open the first drawer of the nightstand with the red table lamp on top"
+    },
+    {
+        "desc_id":"609f3c02-2a0f-4d49-b228-65a2abecc82f",
+        "annot_id":[
+            "fcd8f0b9-6b7d-4aed-8e6d-6262c34f52fe"
+        ],
+        "visit_id":421254,
+        "description":"Unplug the TV from the power supply"
+    },
+    {
+        "desc_id":"ca21da70-f93a-4faa-bdb1-dac493ed7a28",
+        "annot_id":[
+            "227ebe4d-cb0c-492d-9159-cea5eaca385b"
+        ],
+        "visit_id":421267,
+        "description":"Adjust the room's temperature using the radiator dial next to the curtain"
+    },
+    {
+        "desc_id":"907bdd9d-4d49-456b-af16-972ca86bed65",
+        "annot_id":[
+            "ac17df3b-e58f-482c-9a44-54ab99c2333a"
+        ],
+        "visit_id":421267,
+        "description":"Open the top left drawer of the wooden cabinet with the flower vase and the picture on top"
+    },
+    {
+        "desc_id":"16be547d-9e01-4d51-aa9e-75209f4ac3f2",
+        "annot_id":[
+            "2adee7c9-46d3-48d1-bb3d-1502517c5fa8"
+        ],
+        "visit_id":421267,
+        "description":"Open the left part of the window door"
+    },
+    {
+        "desc_id":"bd016cae-2e4c-4835-99ee-c2ca7594cb92",
+        "annot_id":[
+            "cf31ff1c-eb42-4d76-8a76-6c851d47d65d"
+        ],
+        "visit_id":422356,
+        "description":"Turn on the TV using the remote control on the table"
+    },
+    {
+        "desc_id":"7aed0171-8c64-4b86-8e7c-76b2a3ed84c4",
+        "annot_id":[
+            "a5bd5259-ece8-490c-af77-3eecf6489484"
+        ],
+        "visit_id":422356,
+        "description":"Type using the keyboard on the desk"
+    },
+    {
+        "desc_id":"b31cde15-2683-41ab-8cb0-adea078cb888",
+        "annot_id":[
+            "1ed17b0c-3f56-440f-8e8e-954a6bf882be"
+        ],
+        "visit_id":422356,
+        "description":"Turn on the fan"
+    },
+    {
+        "desc_id":"1a34c850-6617-4a38-b80a-c781094205eb",
+        "annot_id":[
+            "e7e30b79-d154-4fbc-b7fe-2341605ecbe7"
+        ],
+        "visit_id":422356,
+        "description":"Open the left drawer of the center table"
+    },
+    {
+        "desc_id":"20fead92-89de-4c32-817d-9bfe0bd81806",
+        "annot_id":[
+            "a2fb1174-4241-4f67-8a6f-7c5cc5a68621"
+        ],
+        "visit_id":421602,
+        "description":"Open the right door of the wooden closet next to the door"
+    },
+    {
+        "desc_id":"6318073b-6b96-4f8d-a056-e0a3133ae99e",
+        "annot_id":[
+            "21af6242-1b15-48a0-9d65-c742c5d29c17"
+        ],
+        "visit_id":421602,
+        "description":"Open the bottom drawer of the wooden cabinet between the window and the bed"
+    },
+    {
+        "desc_id":"081ca794-063f-4cc5-bc1f-1fc2e49ce96b",
+        "annot_id":[
+            "f0c63e96-572f-4a49-a311-bf1f548d2972"
+        ],
+        "visit_id":421602,
+        "description":"Turn on the ceiling light"
+    },
+    {
+        "desc_id":"6e4fba6c-36bb-4169-9ee1-37f4b1af501f",
+        "annot_id":[
+            "17d3fb6c-60c3-47a5-8054-8d00215e1584"
+        ],
+        "visit_id":422007,
+        "description":"Adjust the room's temperature using the radiator dial next to the toy stroller"
+    },
+    {
+        "desc_id":"f776ef90-acec-473c-9698-376f3390ff7d",
+        "annot_id":[
+            "722e68d6-34d8-4038-bf58-b0343a8da536"
+        ],
+        "visit_id":422007,
+        "description":"Turn on the ceiling light"
+    },
+    {
+        "desc_id":"513d9188-2116-4ea6-abf0-0dfc7e230ec1",
+        "annot_id":[
+            "fda36ed9-a7c1-40f7-bebc-d0963cb36c08",
+            "4e10de8c-7fe3-4955-8e2e-f95c401b2ef0"
+        ],
+        "visit_id":422007,
+        "description":"Open the bottom drawer of the white cabinet next to the wooden closet"
+    }
+]
