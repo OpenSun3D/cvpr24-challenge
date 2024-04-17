@@ -2,3 +2,6 @@
     display: none;
 } */
 
+.md-tabs__item:nth-child(2) { 
+    display: none;
+}

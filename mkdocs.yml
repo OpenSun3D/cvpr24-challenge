@@ -2,7 +2,8 @@ site_name: OpenSUN 3D
 nav:
   - Workshop Main Page: https://opensun3d.github.io
   - index.md
-  - Challenge Track 1 (Open-vocabulary 3D object instance search): track_1.md
+  - Challenge Track 1 (Open-vocabulary 3D object instance search): 
+    - Instructions: track_1.md
   - Challenge Track 2 (Open-vocabulary 3D functionality grounding): 
     - Instructions: track_2.md
     # - Data assets: data-assets.md

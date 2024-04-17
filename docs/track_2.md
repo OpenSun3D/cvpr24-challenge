@@ -216,11 +216,11 @@ Will be announced by May 1st, 2024.
 
 ## Data parsers
 
-We provide data parsers and helper functions from the SceneFun3D toolkit [here](https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_2/utils/data_parser.py). Documentation can be found [here](/data-parser).
+We provide data parsers and helper functions from the SceneFun3D toolkit [here](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/utils/data_parser.py). Documentation can be found [here](/data-parser).
 
 ## Example code
 
-We provide an [example script](https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_2/example/project_color_on_laser_scan.py) on how to handle the data assets and the data parsers. This script projects the color of the iPad camera frames on the combined Faro laser scan of the scene.
+We provide an [example script](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/example/project_color_on_laser_scan.py) on how to handle the data assets and the data parsers. This script projects the color of the iPad camera frames on the combined Faro laser scan of the scene.
 
 You can run as
 
