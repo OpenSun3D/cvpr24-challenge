@@ -482,31 +482,31 @@ class DataParser:
         return desired_pose
 
     def get_estimated_transform(self, visit_id, video_id):
-        """
-        Load the estimated transformation matrix from a .npy file.
+        # """
+        # Load the estimated transformation matrix from a .npy file.
 
-        Args:
-            visit_id (str): The identifier of the scene.
-            video_id (str): The identifier of the video sequence.
+        # Args:
+        #     visit_id (str): The identifier of the scene.
+        #     video_id (str): The identifier of the video sequence.
 
-        Returns:
-            (numpy.ndarray): The estimated transformation matrix loaded from the file.
-        """
+        # Returns:
+        #     (numpy.ndarray): The estimated transformation matrix loaded from the file.
+        # """
         estimated_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_estimated_transform.npy")
         estimated_transform = np.load(estimated_transform_path) 
         return estimated_transform
 
     def get_estimated_transform_path(self, visit_id, video_id):
-        """
-        Get the file path of the estimated transformation matrix.
+        # """
+        # Get the file path of the estimated transformation matrix.
 
-        Args:
-            visit_id (str): The identifier of the scene.
-            video_id (str): The identifier of the video sequence.
+        # Args:
+        #     visit_id (str): The identifier of the scene.
+        #     video_id (str): The identifier of the video sequence.
 
-        Returns:
-            (str): The file path of the .npy file containing the estimated transformation matrix.
-        """
+        # Returns:
+        #     (str): The file path of the .npy file containing the estimated transformation matrix.
+        # """
         estimated_transform_path = os.path.join(self.data_root_path, visit_id, video_id, f"{video_id}_estimated_transform.npy")
         return estimated_transform_path
 
