@@ -907,11 +907,13 @@ The ability to perceive, understand and interact with arbitrary 3D environments 
 <p><strong>OUTPUT:</strong> Instance segmentation of the point cloud that corresponds to the vertices of the provided 3D mesh reconstruction, segmenting the objects that fit best with the given prompt.</p>
 </blockquote>
 <p>For this challenge, we use the <a href="https://github.com/apple/ARKitScenes"><strong>ARKitScenes dataset</strong></a>. In this repository, we provide instructions for downloading the data necessary for our challenge, as well as demo/utility scripts that are meant to guide the participants about how to read and use the data. Furthermore, we provide an example evaluation script. </p>
-<p>This README consists of 4 sections:
-1. <a href="#data-download-instructions">Data Download Instructions</a>
-2. <a href="#data-organization-and-format-of-input-data">Data Organization and Format of Input Data</a>
-3. <a href="#submission-instructions">Submission Instructions</a>
-4. <a href="#evaluation-guidelines">Evaluation Guidelines</a></p>
+<p>This README consists of 4 sections:</p>
+<ol>
+<li><a href="#data-download-instructions">Data Download Instructions</a></li>
+<li><a href="#data-organization-and-format-of-input-data">Data Organization and Format of Input Data</a></li>
+<li><a href="#submission-instructions">Submission Instructions</a></li>
+<li><a href="#evaluation-guidelines">Evaluation Guidelines</a></li>
+</ol>
 <hr />
 <h2 id="data-download-instructions"><strong>Data download instructions</strong></h2>
 <p>This section will guide you about how to download the dataset, and explain the downloaded files relevant for our challenge. In our challenge, we use ARKitScenes, particularly the <code>raw</code> dataset.</p>
@@ -929,19 +931,19 @@ The ability to perceive, understand and interact with arbitrary 3D environments 
 </li>
 </ul>
 <h3 id="download-instructions"><strong>Download Instructions</strong></h3>
-<p>In order to download the full training data, you can use the <code>download_data_opensun3d.py</code> script. This script takes as argument a csv file that lists the video ids to be downloaded, as well as the dataset assets that we want to download. We provide 3 different csv files at <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/benchmark_file_lists">benchmark_file_lists</a>.
+<p>In order to download the full training data, you can use the <code>download_data_opensun3d.py</code> script. This script takes as argument a csv file that lists the video ids to be downloaded, as well as the dataset assets that we want to download. We provide 3 different csv files at <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/benchmark_file_lists">benchmark_file_lists</a>.
 The ARKitScenes dataset provides many raw data assets, but we are particularly interested in the depth images, RGB images, camera intrinsics, camera trajectory (poses), and the 3D scene reconstrucion.</p>
 <p>You can use the following script with the given arguments to download the data (Phase 1 - Challenge Development Set, Phase 2 - Challenge Test Set are mandatory. Optionally, if you need to train a model, we provide a command to download the original training set):</p>
 <h4 id="phase-1-download-challenge-development-set-5gb"><strong>Phase 1 - Download Challenge Development Set (~5GB)</strong></h4>
 <p>Download the data using</p>
 <pre><code>python3 challenge/download_data_opensun3d.py --data_type=challenge_development_set --download_dir PATH/TO/ARKITSCENES/DOWNLOAD/DIR
 </code></pre>
-<p>Queries for each scene are available in <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/benchmark_file_lists/queries_development_scenes.csv"><code>queries_development_scenes.csv</code></a>.</p>
-<p>Furthermore, we provide ground truth instance masks for the development scenes <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/benchmark_data/gt_development_scenes">here</a>, whose data format is explained <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/benchmark_data/gt_data_format.md">here</a>. Please note that submission of the predicted masks require a different file format, explained in more detail <a href="#submission-instructions">here</a>.</p>
+<p>Queries for each scene are available in <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/benchmark_file_lists/queries_development_scenes.csv"><code>queries_development_scenes.csv</code></a>.</p>
+<p>Furthermore, we provide ground truth instance masks for the development scenes <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/benchmark_data/gt_development_scenes">here</a>, whose data format is explained <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/benchmark_data/gt_data_format.md">here</a>. Please note that submission of the predicted masks require a different file format, explained in more detail <a href="#submission-instructions">here</a>.</p>
 <h4 id="phase-2-download-challenge-test-set-30gb"><strong>Phase 2 - Download Challenge Test Set (~30GB)</strong></h4>
 <pre><code>python3 challenge/download_data_opensun3d.py --data_type=challenge_test_set --download_dir PATH/TO/ARKITSCENES/DOWNLOAD/DIR
 </code></pre>
-<p>Queries for each scene are available in <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/benchmark_file_lists/queries_test_scenes.csv"><code>queries_test_scenes.csv</code></a>.</p>
+<p>Queries for each scene are available in <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/benchmark_file_lists/queries_test_scenes.csv"><code>queries_test_scenes.csv</code></a>.</p>
 <h4 id="optional-needed-only-if-you-want-to-train-a-model-download-full-training-set-several-hundreds-of-gbs"><em>(Optional, needed only if you want to train a model) Download Full Training Set (Several hundreds of GBs)</em></h4>
 <pre><code>python3 challenge/download_data_opensun3d.py --data_type=full_training_set --download_dir PATH/TO/ARKITSCENES/DOWNLOAD/DIR
 </code></pre>
@@ -992,14 +994,14 @@ This data folder will include two directories, <code>ChallengeDevelopmentSet</co
 4. <code>.ply</code> - stores the mesh generated by ARKit</p>
 <h3 id="loading-using-data"><strong>Loading &amp; using data</strong></h3>
 <blockquote>
-<p>IMPORTANT NOTE: We are providing helper functions and an example dataloader in <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/demo_dataloader_lowres.py"><code>demo_dataloader_lowres.py</code></a> to load images from <em>low res. RGB-D sequence</em>, as well as the corresponding <em>camera intrinsics</em> and <em>poses</em>. If you need anything else, please refer to the helper functions in the <a href="(https://github.com/apple/ARKitScenes/)">original ARKitScenes repository</a>. Furthermore, additional details about what each folder refers to is provided in <a href="(https://github.com/apple/ARKitScenes/blob/main/raw/README.md)">this page</a> from the original ARKitScenes repository.</p>
+<p>IMPORTANT NOTE: We are providing helper functions and an example dataloader in <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/demo_dataloader_lowres.py"><code>demo_dataloader_lowres.py</code></a> to load images from <em>low res. RGB-D sequence</em>, as well as the corresponding <em>camera intrinsics</em> and <em>poses</em>. If you need anything else, please refer to the helper functions in the <a href="https://github.com/apple/ARKitScenes">original ARKitScenes repository</a>. Furthermore, additional details about what each folder refers to is provided in <a href="https://github.com/apple/ARKitScenes/blob/main/raw/README.md">this page</a> from the original ARKitScenes repository.</p>
 </blockquote>
-<p>You can explore the <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/demo_dataloader_lowres.py"><code>demo_dataloader_lowres.py</code></a> file in order to better understand how to load and use the downloaded data. You can simply set the data root directory, the name of the data subset and the ID of the scene you would like to load, as follows:</p>
+<p>You can explore the <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/demo_dataloader_lowres.py"><code>demo_dataloader_lowres.py</code></a> file in order to better understand how to load and use the downloaded data. You can simply set the data root directory, the name of the data subset and the ID of the scene you would like to load, as follows:</p>
 <pre><code>    arkitscenes_root_dir = &quot;PATH/TO/ARKITSCENES/DOWNLOAD/DIR
     data_type = &quot;ChallengeDevelopmentSet&quot; # or &quot;ChallengeTestSet&quot;
     scene_id = &quot;42445173&quot; # an example scene ID
 </code></pre>
-<p>Queries for each development scene are available in <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/benchmark_file_lists/queries_development_scenes.csv"><code>queries_development_scenes.csv</code></a>, and queries for each test scene are available in <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/benchmark_file_lists/queries_test_scenes.csv"><code>queries_test_scenes.csv</code></a>. First column is <code>video_id</code>, second column is <code>visit_id</code> and the last column is the open vocabulary query. What we refer to as <code>{SCENE_ID}</code> in this document is the <code>video_id</code>.</p>
+<p>Queries for each development scene are available in <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/benchmark_file_lists/queries_development_scenes.csv"><code>queries_development_scenes.csv</code></a>, and queries for each test scene are available in <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/benchmark_file_lists/queries_test_scenes.csv"><code>queries_test_scenes.csv</code></a>. First column is <code>video_id</code>, second column is <code>visit_id</code> and the last column is the open vocabulary query. What we refer to as <code>{SCENE_ID}</code> in this document is the <code>video_id</code>.</p>
 <hr />
 <h2 id="submission-instructions"><strong>Submission Instructions</strong></h2>
 <p>Given the open-vocabulary query, the participants are asked to segment object instances that fit best with the query. Expected result is object instance masks, and confidence scores for each mask. </p>
@@ -1032,7 +1034,7 @@ predicted_masks/42445173_001.txt 0.9038
 </code></pre>
 <hr />
 <h2 id="evaluation-guidelines"><strong>Evaluation Guidelines</strong></h2>
-<p>In order to evaluate the results, we provide <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/benchmark_scripts/eval_utils/eval_script_inst.py">evaluation functions</a> as well as an example <a href="https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_1/demo_eval.py">evaluation script</a>. We follow the standard evaluation for 3D instance segmentation, and compute Average Precision (AP) scores. The evaluation script computes the AP scores for each scene and then averages the scores over all scenes. </p>
+<p>In order to evaluate the results, we provide <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/benchmark_scripts/eval_utils/eval_script_inst.py">evaluation functions</a> as well as an example <a href="https://github.com/OpenSun3D/cvpr24-challenge/tree/main/challenge_track_1/demo_eval.py">evaluation script</a>. We follow the standard evaluation for 3D instance segmentation, and compute Average Precision (AP) scores. The evaluation script computes the AP scores for each scene and then averages the scores over all scenes. </p>
 <h2 id="contact-us">Contact Us</h2>
 <p>For any technical issues or questions regarding the challenge, please raise an issue on the <a href="https://github.com/OpenSun3D/cvpr24-challenge/issues">Github repo</a>.</p>
 <p>For direct contact, or any concerns: <a href="mailto:ayca.takmaz@inf.ethz.ch">email us</a>.</p>

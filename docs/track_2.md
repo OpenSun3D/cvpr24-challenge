@@ -45,7 +45,7 @@ In the second track of our workshop challenge, we propose the following challeng
 
 ## Install dependencies
 
-All the code related with this challenge track can be found in this [Github repo](https://github.com/OpenSun3D/cvpr24-challenge).
+All the code related with this challenge track can be found in this [Github repo](https://github.com/OpenSun3D/cvpr24-challenge/challenge_track_2).
 
 **Download the code repository**:
 ```
@@ -216,7 +216,7 @@ Will be announced by May 1st, 2024.
 
 ## Data parsers
 
-We provide data parsers and helper functions from the SceneFun3D toolkit [here](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/utils/data_parser.py). Documentation can be found [here](/data-parser).
+We provide data parsers and helper functions from the SceneFun3D toolkit [here](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/utils/data_parser.py). Documentation can be found [here](/cvpr24-challenge/data-parser).
 
 ## Example code
 
