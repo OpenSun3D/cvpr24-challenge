@@ -27,9 +27,9 @@ Most existing methods in 3D scene understanding are heavily focused on understan
 ## Tentative dates
 
 - Submission Portal: EvalAI
-- Data Instructions & Helper Scripts: April 15, 2024
-- Dev Phase Start: April 15, 2024
-- Submission Portal Start: April 15, 2024
+- Data Instructions & Helper Scripts: April 17, 2024
+- Dev Phase Start: April 17, 2024
+- Submission Portal Start: April 19, 2024
 - Test Phase Start: May 1, 2024
 - Test Phase End: June 8, 2024 (23:59 Pacific Time)
 
@@ -263,7 +263,7 @@ Coming soon.
 
 For any technical issues or questions regarding the challenge, please raise an issue on the [Github repo](https://github.com/OpenSun3D/cvpr24-challenge/issues).
 
-For direct contact, or any concerns: [email us](mailto:alex.delitzas@gmail.com).
+For direct contact, or any concerns: [email us](mailto:adelitzas@student.ethz.ch).
 
 
 <!-- * `mkdocs new [dir-name]` - Create a new project.
