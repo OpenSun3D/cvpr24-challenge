@@ -256,8 +256,7 @@ Coming soon.
 
 ## Evaluation Guidelines
 
-Coming soon.
-<!-- In order to evaluate the results, we provide [evaluation functions](benchmark_scripts/eval_utils/eval_script_inst.py) as well as an example [evaluation script](demo_eval.py). We follow the standard evaluation for 3D instance segmentation, and compute Average Precision (AP) scores. The evaluation script computes the AP scores for each language task description and then averages the scores over all language task descriptions in the set.  -->
+In order to evaluate the results, we provide [evaluation functions](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_eval/eval_utils/eval_script_inst.py) as well as an example [evaluation script](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_eval/demo_eval.py). We follow the standard evaluation for 3D instance segmentation, and compute Average Precision (AP) scores. The evaluation script computes the AP scores for each language task description and then averages the scores over all language task descriptions in the set. 
 
 ## Contact Us
 
