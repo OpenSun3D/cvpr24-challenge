@@ -68,11 +68,11 @@ if __name__ == "__main__":
 
     video_id_csv = None
     if args.split == "challenge_dev_set" and args.download_only_one_video_sequence:
-        video_id_csv = "challenge_file_lists/dev_set_only_one_video.csv"
+        video_id_csv = "benchmark_file_lists/dev_set_only_one_video.csv"
     elif args.split == "challenge_dev_set":
-        video_id_csv = "challenge_file_lists/dev_set.csv"
+        video_id_csv = "benchmark_file_lists/dev_set.csv"
     elif args.split == "sample_scene":
-        video_id_csv = "challenge_file_lists/sample_scene.csv"
+        video_id_csv = "benchmark_file_lists/sample_scene.csv"
     df = pd.read_csv(video_id_csv)
 
     if continue_video_id > 0:
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         df = df.drop_duplicates()
         df = df.reset_index(drop=True)
 
-    df_metadata = pd.read_csv("challenge_file_lists/metadata.csv")
+    df_metadata = pd.read_csv("benchmark_file_lists/metadata.csv")
 
     visit_dataset_assets = []
     video_dataset_assets = []
