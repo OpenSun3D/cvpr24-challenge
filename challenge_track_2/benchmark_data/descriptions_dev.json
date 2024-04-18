@@ -73,7 +73,7 @@
             "167ca036-1972-4fb9-934b-5705a1fc0f17"
         ],
         "visit_id":421015,
-        "description":"Increase the stovetop's heat"
+        "description":"Adjust the stovetop's heat"
     },
     {
         "desc_id":"32a04c67-1c98-44e5-8d8e-4f10eba6ff20",
@@ -106,7 +106,7 @@
             "2b3a3938-2be9-4950-9192-1b67bfff5276"
         ],
         "visit_id":421063,
-        "description":"Throw the trash to the black bin next to the toilet"
+        "description":"Open the black bin next to the toilet"
     },
     {
         "desc_id":"71e753ae-6ff4-478f-bbce-f528e8a6635d",
