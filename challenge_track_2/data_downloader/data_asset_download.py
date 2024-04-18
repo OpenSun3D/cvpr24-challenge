@@ -55,7 +55,7 @@ if __name__ == "__main__":
     continue_video_id = int(args.continue_video_id)
 
     split = None
-    if args.split == "challenge_dev_set":
+    if args.split in ["challenge_dev_set", "sample_scene"]:
         split = "Training"
     else:
         split = None
