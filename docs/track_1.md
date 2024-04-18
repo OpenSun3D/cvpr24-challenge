@@ -168,7 +168,7 @@ We ask the participants to upload their results as a single `.zip` file, which w
 Results must be provided as a text file for each scene. Each text file should contain a line for each instance, containing the relative path to a binary mask of the instance, and the confidence of the prediction. The result text files must be named according to the corresponding scan, as `{SCENE_ID}.txt` with the corresponding scene ID. Predicted `.txt` files listing the instances of each scan must live in the root of the unzipped submission. Predicted instance mask files must live in a subdirectory of the unzipped submission. For instance, a submission should look like:
 
 ```
-submission_opensun3d
+submission_opensun3d_track1
     |__ {SCENE_ID_1}.txt
     |__ {SCENE_ID_2}.txt 
          ⋮
