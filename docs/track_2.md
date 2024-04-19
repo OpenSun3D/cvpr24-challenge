@@ -72,7 +72,7 @@ Our challenge consists of two phases: *Development Phase* and *Test Phase*.
 
 - In the first phase, the *Development Phase*, the challenge participants can download and use the *dev* split for their experiments, which is based on a small subset of the *Training* set of the SceneFun3D dataset. From these *dev* scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage.
 
-- In the second phase, the *Test Phase*, we provide the scenes from the *test* split of the SceneFun3D dataset, we refer to this subset as the *Challenge Test* set. For each of these scenes, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the *Challenge Test* to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage. Data for this phase will be made available for downloading by May 1st, 2024, this will be announced on our website.
+- In the second phase, the *Test Phase*, we provide the scenes from the *test* split of the SceneFun3D dataset, we refer to this subset as the *Challenge Test* set. For each of these scenes, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the *Challenge Test* set to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage. Data for this phase will be made available for downloading by May 1st, 2024, this will be announced on our website.
 
 
 ### Data organization and format
@@ -166,7 +166,7 @@ where the supported arguments are:
 
 * `--dataset_assets <identifier list of data assets to download>`: Specify the identifier list of the data assets to download. See the table below for the supported data asset identifiers. You can specify to download the data assets to download as `--dataset_assets <identifier-1> <identifier-2> ... <identifier-n>`
 
-Below you can find a list with the supported *data asset identifiers*. To download the desired dataassets, add the corresponding identifiers after the `--dataset_assets` argument.
+Below you can find a list with the supported *data asset identifiers*. To download the desired data assets, add the corresponding identifiers after the `--dataset_assets` argument.
 
 | Data asset identifier | Filename | Description |
 |-----------------------------|----------|-------------|
@@ -252,7 +252,7 @@ where the `wide` RGB frames are used for coloring, the extraneous point will be 
 
 ## Submission Instructions
 
-Given the open-vocabulary language task description, the participants are asked to segment functional interacive element instances that an agent needs to interact with to successfully accomplish the task. Expected result is functional interacive element masks, and confidence scores for each mask. 
+Given the open-vocabulary language task description, the participants are asked to segment functional interactive element instances that an agent needs to interact with to successfully accomplish the task. Expected result is functional interactive element masks, and confidence scores for each mask. 
 
 We ask the participants to upload their results as a single `.zip` file, which when unzipped must contain in the root the prediction files. There must not be any additional files or folders in the archive except those specified below.
 
