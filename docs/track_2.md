@@ -245,7 +245,7 @@ where the supported arguments are:
 For example, to run the script on the sample scene which you have stored under `data/`:
 
 ```
-python -m example.project_color_on_point_cloud --split dev --data_dir data/ --video_id_csv benchmark_file_lists/sample scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
+python -m example.project_color_on_laser_scan --split dev --data_dir data/ --video_id_csv benchmark_file_lists/sample_scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
 ```
 
 where the `wide` RGB frames are used for coloring, the extraneous point will be cropped from the laser scan and the output will be stored.
