@@ -170,7 +170,7 @@ if __name__ == "__main__":
             sum_features[mask!=0] += feat_2d_3d[mask!=0]
 
         progress_bar.close()
-        print(f"{len(skipped_frames)} frames were skipped because of missing poses.")
+        print(f"{len(skipped_frames)} frames were skipped because of unmet conditions.")
         counter[counter==0] = 1e-5
         feat_bank = sum_features / counter
         feat_bank[feat_bank[:, 0:3] == [0., 0., 0.]] = 169. / 255
