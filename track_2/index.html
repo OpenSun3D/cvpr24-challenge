@@ -1152,7 +1152,7 @@ pip install -r requirements.txt
 </li>
 </ul>
 <p>For example, to run the script on the sample scene which you have stored under <code>data/</code>:</p>
-<pre><code>python -m example.project_color_on_point_cloud --split dev --data_dir data/ --video_id_csv benchmark_file_lists/sample scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
+<pre><code>python -m example.project_color_on_laser_scan --split dev --data_dir data/ --video_id_csv benchmark_file_lists/sample_scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
 </code></pre>
 <p>where the <code>wide</code> RGB frames are used for coloring, the extraneous point will be cropped from the laser scan and the output will be stored.</p>
 <p><strong>Note</strong>: To run the example script, you need first to download the necessary data assets. For example, this can be done for the sample scene as follows:</p>
