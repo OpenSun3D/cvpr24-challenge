@@ -250,6 +250,20 @@ python -m example.project_color_on_point_cloud --split dev --data_dir data/ --vi
 
 where the `wide` RGB frames are used for coloring, the extraneous point will be cropped from the laser scan and the output will be stored.
 
+**Note**: To run the example script, you need first to download the necessary data assets. For example, this can be done for the sample scene as follows:
+
+* Case 1: Use the low res. frames for coloring
+
+    ```
+    python -m data_downloader.data_asset_download --split sample_scene --download_dir data/ --dataset_assets laser_scan_5mm crop_mask transform camera_trajectory lowres_wide lowres_wide_intrinsics lowres_depth 
+    ```
+
+* Case 1: Use the high res. frames for coloring
+
+    ```
+    python -m data_downloader.data_asset_download --split sample_scene --download_dir data/ --dataset_assets laser_scan_5mm crop_mask transform camera_trajectory wide wide_intrinsics highres_depth
+    ```
+
 ## Submission Instructions
 
 Given the open-vocabulary language task description, the participants are asked to segment functional interactive element instances that an agent needs to interact with to successfully accomplish the task. Expected result is functional interactive element masks, and confidence scores for each mask. 
