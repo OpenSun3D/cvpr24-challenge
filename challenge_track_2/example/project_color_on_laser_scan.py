@@ -14,6 +14,7 @@ from utils.data_parser import DataParser
 from utils.viz import viz_3d
 from utils.fusion_util import PointCloudToImageMapper
 from utils.pc_process import pc_estimate_normals
+from tqdm import tqdm
 
 ##################
 ### PARAMETERS ###
@@ -139,13 +140,17 @@ if __name__ == "__main__":
         counter = np.zeros((n_points, 1))
         sum_features = np.zeros((n_points, 3))
         n = len(frame_ids)
+        progress_bar = tqdm(range(0, n), desc=f"Frames processing")
+        skipped_frames = []
         for idx, frame_id in enumerate(frame_ids):
+            if idx % 10 == 0:
+                progress_bar.update(10)
 
-            print(f"Frame {idx}/{n}")
             pose = dataParser.get_nearest_pose(frame_id, poses_from_traj, use_interpolation=use_interpolation, time_distance_threshold=time_distance_threshold)
 
             if pose is None:
-                print("Skipping frame.")
+                #print(f"Skipping frame {idx}.")
+                skipped_frames.append(frame_id)
                 continue
 
             depth = dataParser.read_depth_frame(depth_frame_paths[frame_id]) 
@@ -164,6 +169,8 @@ if __name__ == "__main__":
             counter[mask!=0] += 1
             sum_features[mask!=0] += feat_2d_3d[mask!=0]
 
+        progress_bar.close()
+        print(f"{len(skipped_frames)} frames were skipped because of missing poses.")
         counter[counter==0] = 1e-5
         feat_bank = sum_features / counter
         feat_bank[feat_bank[:, 0:3] == [0., 0., 0.]] = 169. / 255
