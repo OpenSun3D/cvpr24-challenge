@@ -947,7 +947,7 @@ pip install -r requirements.txt
 <p>In the first phase, the <em>Development Phase</em>, the challenge participants can download and use the <em>dev</em> split for their experiments, which is based on a small subset of the <em>Training</em> set of the SceneFun3D dataset. From these <em>dev</em> scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the <em>Challenge Development</em> set. The participants can upload their predictions on scenes from the <em>Challenge Development</em> set to the <a href="https://eval.ai/web/challenges/challenge-page/2262/">Phase 1 - Development Benchmark</a> in the submission webpage.</p>
 </li>
 <li>
-<p>In the second phase, the <em>Test Phase</em>, we provide the scenes from the <em>test</em> split of the SceneFun3D dataset, we refer to this subset as the <em>Challenge Test</em> set. For each of these scenes, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the <em>Challenge Test</em> to the <a href="https://eval.ai/web/challenges/challenge-page/2262/">Phase 2 - Test Benchmark</a> in the submission webpage. Data for this phase will be made available for downloading by May 1st, 2024, this will be announced on our website.</p>
+<p>In the second phase, the <em>Test Phase</em>, we provide the scenes from the <em>test</em> split of the SceneFun3D dataset, we refer to this subset as the <em>Challenge Test</em> set. For each of these scenes, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the <em>Challenge Test</em> set to the <a href="https://eval.ai/web/challenges/challenge-page/2262/">Phase 2 - Test Benchmark</a> in the submission webpage. Data for this phase will be made available for downloading by May 1st, 2024, this will be announced on our website.</p>
 </li>
 </ul>
 <h3 id="data-organization-and-format">Data organization and format</h3>
@@ -1031,7 +1031,7 @@ pip install -r requirements.txt
 <p><code>--dataset_assets &lt;identifier list of data assets to download&gt;</code>: Specify the identifier list of the data assets to download. See the table below for the supported data asset identifiers. You can specify to download the data assets to download as <code>--dataset_assets &lt;identifier-1&gt; &lt;identifier-2&gt; ... &lt;identifier-n&gt;</code></p>
 </li>
 </ul>
-<p>Below you can find a list with the supported <em>data asset identifiers</em>. To download the desired dataassets, add the corresponding identifiers after the <code>--dataset_assets</code> argument.</p>
+<p>Below you can find a list with the supported <em>data asset identifiers</em>. To download the desired data assets, add the corresponding identifiers after the <code>--dataset_assets</code> argument.</p>
 <table>
 <thead>
 <tr>
@@ -1155,8 +1155,19 @@ pip install -r requirements.txt
 <pre><code>python -m example.project_color_on_point_cloud --split dev --data_dir data/ --video_id_csv benchmark_file_lists/sample scene.csv --coloring_asset wide --crop_extraneous --save_as_float32
 </code></pre>
 <p>where the <code>wide</code> RGB frames are used for coloring, the extraneous point will be cropped from the laser scan and the output will be stored.</p>
+<p><strong>Note</strong>: To run the example script, you need first to download the necessary data assets. For example, this can be done for the sample scene as follows:</p>
+<ul>
+<li>
+<p>Case 1: Use the low res. frames for coloring</p>
+<p><code>python -m data_downloader.data_asset_download --split sample_scene --download_dir data/ --dataset_assets laser_scan_5mm crop_mask transform camera_trajectory lowres_wide lowres_wide_intrinsics lowres_depth</code></p>
+</li>
+<li>
+<p>Case 1: Use the high res. frames for coloring</p>
+<p><code>python -m data_downloader.data_asset_download --split sample_scene --download_dir data/ --dataset_assets laser_scan_5mm crop_mask transform camera_trajectory wide wide_intrinsics highres_depth</code></p>
+</li>
+</ul>
 <h2 id="submission-instructions">Submission Instructions</h2>
-<p>Given the open-vocabulary language task description, the participants are asked to segment functional interacive element instances that an agent needs to interact with to successfully accomplish the task. Expected result is functional interacive element masks, and confidence scores for each mask. </p>
+<p>Given the open-vocabulary language task description, the participants are asked to segment functional interactive element instances that an agent needs to interact with to successfully accomplish the task. Expected result is functional interactive element masks, and confidence scores for each mask. </p>
 <p>We ask the participants to upload their results as a single <code>.zip</code> file, which when unzipped must contain in the root the prediction files. There must not be any additional files or folders in the archive except those specified below.</p>
 <p>Results must be provided as a text file for each scene. Each text file should contain a line for each instance, containing the relative path to a binary mask of the instance, and the confidence of the prediction. The result text files must be named according to the corresponding laser scan (<code>visit_id</code>) and language description (<code>desc_id</code>), as <code>{visit_id}_{desc_id}.txt</code>. Predicted <code>.txt</code> files listing the instances of each scan must live in the root of the unzipped submission. Predicted instance mask files must live in a subdirectory named <code>predicted_masks/</code> of the unzipped submission. For example, a submission should look like the following:</p>
 <pre><code>submission_opensun3d_track2
