@@ -72,7 +72,7 @@ Our challenge consists of two phases: *Development Phase* and *Test Phase*.
 
 - In the first phase, the *Development Phase*, the challenge participants can download and use the *dev* split for their experiments, which is based on a small subset of the *Training* set of the SceneFun3D dataset. From these *dev* scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage.
 
-- In the second phase, the *Test Phase*, we provide the scenes from the *test* split of the SceneFun3D dataset, we refer to this subset as the *Challenge Test* set. For each of these scenes, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the *Challenge Test* set to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage. Data for this phase will be made available for downloading by May 1st, 2024, this will be announced on our website.
+- In the second phase, the *Test Phase*, we provide a subset of the *test* split of the SceneFun3D dataset. We refer to this subset as the *Challenge Test* set. For each of the scenes in the *Challenge Test* set, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the *Challenge Test* set to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage. Data for this phase are now available.
 
 
 ### Data organization and format
@@ -113,6 +113,8 @@ PATH/TO/DATA/DIR/{dev or test}/
 
 ### Annotations format
 
+**Challenge Development set**
+
 We provide GT annotations for the scenes in the development set which are organized in two separate files and follow this format:
 
 *[descriptions_dev.json](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_data/descriptions_dev.json)*
@@ -145,6 +147,22 @@ We provide GT annotations for the scenes in the development set which are organi
 The file *descriptions_dev.json* contains the language task descriptions and links them to the corresponding functional interactive element instances. The file *annotations_dev.json* contains the functional interactive element annotations, i.e., the mask indices of a single functional interactive element instance in the original laser scan. 
 
 > &#128221; We *highlight* that a single language task description can correspond to one or multiple functional interactive element instances.
+
+**Challenge Test set**
+
+For the scenes in the challenge test set, we provide input language task descriptions, without any functional interactive element annotations. The participants should run their models on these inputs and upload their predictions to our submission portal by following the [submission instructions](https://opensun3d.github.io/cvpr24-challenge/track_2/#submission-instructions).
+
+*[descriptions_test.json](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_data/descriptions_test.json)*
+```
+[
+  {
+    "desc_id": unique id of the description,
+    "visit_id": the identifier of the scene,
+    "description": language instruction of the task
+  }, 
+  ...
+]
+```
 
 ### Data downloader
 
@@ -194,12 +212,12 @@ To download the scenes in the development set, you can run:
 ```
 python -m data_downloader.data_asset_download --split challenge_dev_set --download_dir data/ --dataset_assets <identifier list of data assets to download>
 ```
-where you `<identifier list of data assets to download>` should be substituted with the identifiers of the data assets you want to download. For example, to download the combined laser scan, the low resolution RGB frames, depth maps and camera intrinsics, the camera trajectory and the transformation matrix, you can run:
+where `<identifier list of data assets to download>` should be substituted with the identifiers of the data assets you want to download. For example, to download the combined laser scan, the low resolution RGB frames, depth maps and camera intrinsics, the camera trajectory and the transformation matrix, you can run:
 
 ```
 python -m data_downloader.data_asset_download --split challenge_dev_set --download_dir data/ --dataset_assets laser_scan_5mm lowres_wide lowres_depth lowres_wide_intrinsics camera_trajectory transform
 ```
-You can also add `--download_only_one_video_sequence`, if you want to download only one video sequence for each scene . This option will reduce the storage needed and the download time.
+You can also add `--download_only_one_video_sequence`, if you want to download only one video sequence for each scene. This option will reduce the storage needed and the download time.
 
 **Download a sample scene**
 
@@ -210,7 +228,16 @@ python -m data_downloader.data_asset_download --split sample_scene --download_di
 
 ### Test phase 
 
-Will be announced by May 1st, 2024.
+**Download the scenes in the test set**
+
+Similarly, to download the scenes in the test set, you can run:
+
+```
+python -m data_downloader.data_asset_download --split challenge_test_set --download_dir data/ --dataset_assets <identifier list of data assets to download>
+```
+where `<identifier list of data assets to download>` should be substituted with the identifiers of the data assets you want to download. 
+
+To download only one video sequence for each scene, you can add `--download_only_one_video_sequence`.
 
 
 
