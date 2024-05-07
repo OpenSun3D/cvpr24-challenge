@@ -21,7 +21,7 @@ The ability to perceive, understand and interact with arbitrary 3D environments 
 
 ## Tentative dates
 
-- Submission Portal: EvalAI
+- Submission Portal: [EvalAI](https://eval.ai/web/challenges/challenge-page/2102)
 - Data Instructions & Helper Scripts: April 17, 2024
 - Dev Phase Start: April 17, 2024
 - Submission Portal Start: April 19, 2024
@@ -59,9 +59,9 @@ This section will guide you about how to download the dataset, and explain the d
 ### **Challenge Phases**
 Our challenge consists of two phases: *Development Phase* and *Test Phase*.
 
-- In the first phase, the *Development Phase*, the challenge participants can download and use the whole *Training* split of the ARKitScenes dataset for their experiments. From these *Training* scenes, we annotate a few example scenes for development purposes. More specifically, for each example scene, we first specify an open-vocabulary query, and then manually annotate objects corresponding to the given query, by segmenting them in the point cloud of the given scene. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](https://eval.ai/web/challenges/challenge-page/2102/submission) in the challenge website.
+- In the first phase, the *Development Phase*, the challenge participants can download and use the whole *Training* split of the ARKitScenes dataset for their experiments. From these *Training* scenes, we annotate a few example scenes for development purposes. More specifically, for each example scene, we first specify an open-vocabulary query, and then manually annotate objects corresponding to the given query, by segmenting them in the point cloud of the given scene. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](https://eval.ai/web/challenges/challenge-page/2102) in the challenge website.
 
-- In the second phase, the *Test Phase*, we provide a subset of scenes from the *Validation* split of the ARKitScenes dataset, we refer to this subset as the *Challenge Test* set. For each of these scenes, we provide an input text-query. The participants are expected to upload their predictions for each scene from the *Challenge Test* to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2102/submission) in the challenge website.
+- In the second phase, the *Test Phase*, we provide a subset of scenes from the *Validation* split of the ARKitScenes dataset, we refer to this subset as the *Challenge Test* set. For each of these scenes, we provide an input text-query. The participants are expected to upload their predictions for each scene from the *Challenge Test* to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2102) in the challenge website.
 
 
 ### **Download Instructions**

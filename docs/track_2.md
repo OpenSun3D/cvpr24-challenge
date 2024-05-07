@@ -26,7 +26,7 @@ Most existing methods in 3D scene understanding are heavily focused on understan
 
 ## Tentative dates
 
-- Submission Portal: EvalAI
+- Submission Portal: [EvalAI](https://eval.ai/web/challenges/challenge-page/2262/)
 - Data Instructions & Helper Scripts: April 17, 2024
 - Dev Phase Start: April 17, 2024
 - Submission Portal Start: April 19, 2024
@@ -72,7 +72,7 @@ Our challenge consists of two phases: *Development Phase* and *Test Phase*.
 
 - In the first phase, the *Development Phase*, the challenge participants can download and use the *dev* split for their experiments, which is based on a small subset of the *Training* set of the SceneFun3D dataset. From these *dev* scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the *Challenge Development* set. The participants can upload their predictions on scenes from the *Challenge Development* set to the [Phase 1 - Development Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage.
 
-- In the second phase, the *Test Phase*, we provide a subset of the *test* split of the SceneFun3D dataset. We refer to this subset as the *Challenge Test* set. For each of the scenes in the *Challenge Test* set, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the *Challenge Test* set to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage. Data for this phase are is available.
+- In the second phase, the *Test Phase*, we provide a subset of the *test* split of the SceneFun3D dataset. We refer to this subset as the *Challenge Test* set. For each of the scenes in the *Challenge Test* set, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the *Challenge Test* set to the [Phase 2 - Test Benchmark](https://eval.ai/web/challenges/challenge-page/2262/) in the submission webpage. Data for this phase is now available.
 
 
 ### Data organization and format
