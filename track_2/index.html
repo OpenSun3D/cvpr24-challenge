@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.15">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.66ac8b77.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -910,7 +910,7 @@ Most existing methods in 3D scene understanding are heavily focused on understan
 
 <h2 id="tentative-dates">Tentative dates</h2>
 <ul>
-<li>Submission Portal: EvalAI</li>
+<li>Submission Portal: <a href="https://eval.ai/web/challenges/challenge-page/2262/">EvalAI</a></li>
 <li>Data Instructions &amp; Helper Scripts: April 17, 2024</li>
 <li>Dev Phase Start: April 17, 2024</li>
 <li>Submission Portal Start: April 19, 2024</li>
@@ -947,7 +947,7 @@ pip install -r requirements.txt
 <p>In the first phase, the <em>Development Phase</em>, the challenge participants can download and use the <em>dev</em> split for their experiments, which is based on a small subset of the <em>Training</em> set of the SceneFun3D dataset. From these <em>dev</em> scenes, we provide all the data assets and annotations for development purposes. We refer to this subset as the <em>Challenge Development</em> set. The participants can upload their predictions on scenes from the <em>Challenge Development</em> set to the <a href="https://eval.ai/web/challenges/challenge-page/2262/">Phase 1 - Development Benchmark</a> in the submission webpage.</p>
 </li>
 <li>
-<p>In the second phase, the <em>Test Phase</em>, we provide the scenes from the <em>test</em> split of the SceneFun3D dataset, we refer to this subset as the <em>Challenge Test</em> set. For each of these scenes, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the <em>Challenge Test</em> set to the <a href="https://eval.ai/web/challenges/challenge-page/2262/">Phase 2 - Test Benchmark</a> in the submission webpage. Data for this phase will be made available for downloading by May 1st, 2024, this will be announced on our website.</p>
+<p>In the second phase, the <em>Test Phase</em>, we provide a subset of the <em>test</em> split of the SceneFun3D dataset. We refer to this subset as the <em>Challenge Test</em> set. For each of the scenes in the <em>Challenge Test</em> set, we provide all the data assets and input language task descriptions but we do not provide the GT annotations. The participants are expected to upload their predictions for each scene from the <em>Challenge Test</em> set to the <a href="https://eval.ai/web/challenges/challenge-page/2262/">Phase 2 - Test Benchmark</a> in the submission webpage. Data for this phase is now available.</p>
 </li>
 </ul>
 <h3 id="data-organization-and-format">Data organization and format</h3>
@@ -983,6 +983,7 @@ pip install -r requirements.txt
 .
 </code></pre>
 <h3 id="annotations-format">Annotations format</h3>
+<p><strong>Challenge Development set</strong></p>
 <p>We provide GT annotations for the scenes in the development set which are organized in two separate files and follow this format:</p>
 <p><em><a href="https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_data/descriptions_dev.json">descriptions_dev.json</a></em></p>
 <pre><code>[
@@ -1011,6 +1012,18 @@ pip install -r requirements.txt
 <blockquote>
 <p>&#128221; We <em>highlight</em> that a single language task description can correspond to one or multiple functional interactive element instances.</p>
 </blockquote>
+<p><strong>Challenge Test set</strong></p>
+<p>For the scenes in the challenge test set, we provide input language task descriptions, without any functional interactive element annotations. The participants should run their models on these inputs and upload their predictions to our submission portal by following the <a href="https://opensun3d.github.io/cvpr24-challenge/track_2/#submission-instructions">submission instructions</a>.</p>
+<p><em><a href="https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/benchmark_data/descriptions_test.json">descriptions_test.json</a></em></p>
+<pre><code>[
+  {
+    &quot;desc_id&quot;: unique id of the description,
+    &quot;visit_id&quot;: the identifier of the scene,
+    &quot;description&quot;: language instruction of the task
+  }, 
+  ...
+]
+</code></pre>
 <h3 id="data-downloader">Data downloader</h3>
 <p>We provide a data downloader script that downloads and prepares the data. </p>
 <p>You can run as:</p>
@@ -1113,16 +1126,21 @@ pip install -r requirements.txt
 <p>To download the scenes in the development set, you can run:</p>
 <pre><code>python -m data_downloader.data_asset_download --split challenge_dev_set --download_dir data/ --dataset_assets &lt;identifier list of data assets to download&gt;
 </code></pre>
-<p>where you <code>&lt;identifier list of data assets to download&gt;</code> should be substituted with the identifiers of the data assets you want to download. For example, to download the combined laser scan, the low resolution RGB frames, depth maps and camera intrinsics, the camera trajectory and the transformation matrix, you can run:</p>
+<p>where <code>&lt;identifier list of data assets to download&gt;</code> should be substituted with the identifiers of the data assets you want to download. For example, to download the combined laser scan, the low resolution RGB frames, depth maps and camera intrinsics, the camera trajectory and the transformation matrix, you can run:</p>
 <pre><code>python -m data_downloader.data_asset_download --split challenge_dev_set --download_dir data/ --dataset_assets laser_scan_5mm lowres_wide lowres_depth lowres_wide_intrinsics camera_trajectory transform
 </code></pre>
-<p>You can also add <code>--download_only_one_video_sequence</code>, if you want to download only one video sequence for each scene . This option will reduce the storage needed and the download time.</p>
+<p>You can also add <code>--download_only_one_video_sequence</code>, if you want to download only one video sequence for each scene. This option will reduce the storage needed and the download time.</p>
 <p><strong>Download a sample scene</strong></p>
 <p>In case you want to download only a single sample scene and a video sequence you can run:</p>
 <pre><code>python -m data_downloader.data_asset_download --split sample_scene --download_dir data/ --dataset_assets &lt;identifier list of data assets to download&gt;
 </code></pre>
 <h3 id="test-phase">Test phase</h3>
-<p>Will be announced by May 1st, 2024.</p>
+<p><strong>Download the scenes in the test set</strong></p>
+<p>Similarly, to download the scenes in the test set, you can run:</p>
+<pre><code>python -m data_downloader.data_asset_download --split challenge_test_set --download_dir data/ --dataset_assets &lt;identifier list of data assets to download&gt;
+</code></pre>
+<p>where <code>&lt;identifier list of data assets to download&gt;</code> should be substituted with the identifiers of the data assets you want to download. </p>
+<p>To download only one video sequence for each scene, you can add <code>--download_only_one_video_sequence</code>.</p>
 <h2 id="data-parsers">Data parsers</h2>
 <p>We provide data parsers and helper functions from the SceneFun3D toolkit <a href="https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/utils/data_parser.py">here</a>. Documentation can be found <a href="/cvpr24-challenge/data-parser">here</a>.</p>
 <h2 id="example-code">Example code</h2>
@@ -1275,7 +1293,7 @@ predicted_masks/123456_5baea371-b33b-4076-92b1-587a709e6c65_001.txt 0.9038
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.bd41221c.min.js"></script>
+      <script src="../assets/javascripts/bundle.a7c05c9e.min.js"></script>
       
     
   </body>
