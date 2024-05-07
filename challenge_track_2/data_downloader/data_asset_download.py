@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--split",
-        choices=["challenge_dev_set", "sample_scene"],
+        choices=["challenge_dev_set", "sample_scene", "challenge_test_set"],
         help="Specify the split of the data"
     )
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     if args.split in ["challenge_dev_set", "sample_scene"]:
         split = "Training"
     else:
-        split = None
+        split = "Validation"
     # split_folder = "train/" if split == "Training" else "val/"
     split_folder = "dev/" if split == "Training" else "test/"
 
@@ -73,6 +73,10 @@ if __name__ == "__main__":
         video_id_csv = "benchmark_file_lists/dev_set.csv"
     elif args.split == "sample_scene":
         video_id_csv = "benchmark_file_lists/sample_scene.csv"
+    elif args.split == "challenge_test_set" and args.download_only_one_video_sequence:
+        video_id_csv = "benchmark_file_lists/test_set_only_one_video.csv"
+    elif args.split == "challenge_test_set":
+        video_id_csv = "benchmark_file_lists/test_set.csv"
     df = pd.read_csv(video_id_csv)
 
     if continue_video_id > 0:
