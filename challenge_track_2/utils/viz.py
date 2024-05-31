@@ -1,5 +1,6 @@
 # Helpers for visualization
 #
+# SceneFun3D Toolkit
 #
 
 import open3d as o3d
