@@ -7,3 +7,4 @@ opencv-python
 moviepy
 scipy
 tqdm
+pyviz3d
