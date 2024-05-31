@@ -31,7 +31,7 @@ Most existing methods in 3D scene understanding are heavily focused on understan
 - Dev Phase Start: April 17, 2024
 - Submission Portal Start: April 19, 2024
 - Test Phase Start: May 1, 2024
-- Test Phase End: June 8, 2024 (23:59 Pacific Time)
+- Test Phase End: June 14, 2024 (14:00 Pacific Time)
 
 ## Task description
 
@@ -244,6 +244,10 @@ To download only one video sequence for each scene, you can add `--download_only
 ## Data parsers
 
 We provide data parsers and helper functions from the SceneFun3D toolkit [here](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/utils/data_parser.py). Documentation can be found [here](/cvpr24-challenge/data-parser).
+
+## Visualization helpers
+
+We provide visualization helpers [here](https://github.com/OpenSun3D/cvpr24-challenge/blob/main/challenge_track_2/utils/viz.py).
 
 ## Example code
 

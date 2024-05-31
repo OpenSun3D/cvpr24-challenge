@@ -26,7 +26,7 @@ The ability to perceive, understand and interact with arbitrary 3D environments 
 - Dev Phase Start: April 17, 2024
 - Submission Portal Start: April 19, 2024
 - Test Phase Start: May 1, 2024
-- Test Phase End: June 8, 2024 (23:59 Pacific Time)
+- Test Phase End: June 14, 2024 (14:00 Pacific Time)
 
 
 ## Task description
